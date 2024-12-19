@@ -51,6 +51,10 @@
 			<artifactId>flyway-maven-plugin</artifactId>
 			<version>11.1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.mysql</groupId>
