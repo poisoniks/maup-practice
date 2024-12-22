@@ -1,13 +1,60 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-    <title>Hello World!</title>
+    <title>Product List</title>
+    <script th:src="@{/js/home.js}"></script>
 </head>
 <body>
 <h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1>
+
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
+
+<h2>Products</h2>
+
+<form id="filterForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name">
+
+    <label for="minPrice">Min Price:</label>
+    <input type="number" id="minPrice" name="minPrice" step="0.01">
+
+    <label for="maxPrice">Max Price:</label>
+    <input type="number" id="maxPrice" name="maxPrice" step="0.01">
+
+    <label for="brandId">Brand ID:</label>
+    <input type="number" id="brandId" name="brandId">
+
+    <label for="supplierId">Supplier ID:</label>
+    <input type="number" id="supplierId" name="supplierId">
+
+    <label for="categoryId">Category ID:</label>
+    <input type="number" id="categoryId" name="categoryId">
+
+    <button type="button" id="searchBtn">Search</button>
+</form>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Stock</th>
+    </tr>
+    </thead>
+    <tbody id="productTableBody">
+    </tbody>
+</table>
+
+<div id="pagination">
+    <button id="prevPageBtn" disabled>Previous</button>
+    <span id="pageInfo">Page 1</span>
+    <button id="nextPageBtn" disabled>Next</button>
+</div>
 </body>
 </html>
