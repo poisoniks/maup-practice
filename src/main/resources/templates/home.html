@@ -4,7 +4,8 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <title>Product List</title>
-    <script th:src="@{/js/home.js}"></script>
+    <script th:src="@{/js/home.js}" defer></script>
+    <script th:src="@{/js/basket.js}" defer></script>
 </head>
 <body>
 <h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1>
@@ -56,5 +57,31 @@
     <span id="pageInfo">Page 1</span>
     <button id="nextPageBtn" disabled>Next</button>
 </div>
+
+<h1>Basket Functionality Test</h1>
+
+<div>
+    <h2>Basket Actions</h2>
+    <button onclick="fetchBasket()">Get Basket</button>
+    <button onclick="addToBasket(1, 2)">Add Product 1 (Qty: 2)</button>
+    <button onclick="addToBasket(2, 1)">Add Product 2 (Qty: 1)</button>
+    <button onclick="removeFromBasket(1)">Remove Product 1</button>
+    <button onclick="clearBasket()">Clear Basket</button>
+</div>
+
+<h2>Basket Contents</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Product ID</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody id="basketContents">
+
+    </tbody>
+</table>
 </body>
 </html>

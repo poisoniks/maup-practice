@@ -38,6 +38,9 @@ public class UserModel {
     )
     private Set<RoleModel> roles;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private BasketModel basket;
+
     public Long getId() {
         return id;
     }
@@ -100,5 +103,13 @@ public class UserModel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public BasketModel getBasket() {
+        return basket;
+    }
+
+    public void setBasket(BasketModel basket) {
+        this.basket = basket;
     }
 }

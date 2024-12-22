@@ -1,4 +1,4 @@
-package com.maup.practice.util;
+package com.maup.practice.util.converter;
 
 import com.maup.practice.dto.CategoryDTO;
 import com.maup.practice.model.CategoryModel;
