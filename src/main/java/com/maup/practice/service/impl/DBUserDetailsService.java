@@ -26,7 +26,7 @@ public class DBUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
         return User.withUsername(userModel.getEmail())
-                .password(userModel.getPassword())
+                .password(userModel.getPassword() == null ? "" : userModel.getPassword())
                 .disabled(!userModel.isEnabled())
                 .authorities(userModel.getRoles().stream()
                         .map(RoleModel::getName)
