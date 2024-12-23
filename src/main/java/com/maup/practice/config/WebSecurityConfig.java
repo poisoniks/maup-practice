@@ -1,5 +1,6 @@
 package com.maup.practice.config;
 
+import com.maup.practice.filter.AnonymousUserAuthenticationFilter;
 import com.maup.practice.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager, JwtAuthFilter jwtAuthFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager,
+                                                   JwtAuthFilter jwtAuthFilter, AnonymousUserAuthenticationFilter anonymousUserAuthenticationFilter) throws Exception {
         http
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
@@ -40,6 +42,7 @@ public class WebSecurityConfig {
                 .logout(LogoutConfigurer::permitAll)
                 .authenticationManager(authenticationManager)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(anonymousUserAuthenticationFilter, JwtAuthFilter.class)
                 .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();

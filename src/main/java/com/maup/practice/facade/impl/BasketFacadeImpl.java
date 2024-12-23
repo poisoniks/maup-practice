@@ -8,7 +8,6 @@ import com.maup.practice.service.BasketService;
 import com.maup.practice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,29 +24,24 @@ public class BasketFacadeImpl implements BasketFacade {
 
     @Override
     public BasketDTO getOrCreateBasket() {
-        return basketConverter.convert(basketService.getOrCreateBasketForUser(getCurrentUser()));
+        return basketConverter.convert(basketService.getOrCreateBasketForUser(userService.getCurrentUser()));
     }
 
     @Override
     public void addToBasket(Long productId, int quantity) {
-        UserModel user = getCurrentUser();
+        UserModel user = userService.getCurrentUser();
         basketService.addToBasket(user, productId, quantity);
     }
 
     @Override
     public void removeFromBasket(Long productId) {
-        UserModel user = getCurrentUser();
+        UserModel user = userService.getCurrentUser();
         basketService.removeFromBasket(user, productId);
     }
 
     @Override
     public void clearBasket() {
-        UserModel user = getCurrentUser();
+        UserModel user = userService.getCurrentUser();
         basketService.clearBasket(user);
-    }
-
-    private UserModel getCurrentUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userService.findByEmail(username);
     }
 }

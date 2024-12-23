@@ -11,4 +11,6 @@ public interface BasketService {
     void removeFromBasket(UserModel user, Long productId);
 
     void clearBasket(UserModel user);
+
+    void mergeBaskets(UserModel user, BasketModel anonymousBasket);
 }

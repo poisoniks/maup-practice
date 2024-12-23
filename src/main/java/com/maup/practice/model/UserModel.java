@@ -24,8 +24,11 @@ public class UserModel {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
+
+    @Column(nullable = false)
+    private boolean isAnonymous;
 
     @Column(nullable = false)
     private boolean enabled;
@@ -111,5 +114,13 @@ public class UserModel {
 
     public void setBasket(BasketModel basket) {
         this.basket = basket;
+    }
+
+    public boolean isAnonymous() {
+        return isAnonymous;
+    }
+
+    public void setAnonymous(boolean anonymous) {
+        isAnonymous = anonymous;
     }
 }

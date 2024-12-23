@@ -1,5 +1,6 @@
 package com.maup.practice.service;
 
+import com.maup.practice.dto.RegistrationRequest;
 import com.maup.practice.model.UserModel;
 
 public interface UserService {
@@ -7,4 +8,7 @@ public interface UserService {
     void deleteUser(UserModel user);
     boolean existsByEmail(String email);
     UserModel findByEmail(String email);
+    UserModel createUser(RegistrationRequest form);
+    UserModel createAnonymousUser();
+    UserModel getCurrentUser();
 }

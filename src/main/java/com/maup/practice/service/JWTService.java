@@ -1,5 +1,6 @@
 package com.maup.practice.service;
 
+import jakarta.servlet.http.Cookie;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface JWTService {
@@ -8,4 +9,6 @@ public interface JWTService {
     String extractUsername(String token);
 
     Boolean validateToken(String token, UserDetails userDetails);
+
+    Cookie generateJWTCookie(String jwtToken);
 }

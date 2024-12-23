@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,6 +56,16 @@ public class JWTServiceImpl implements JWTService {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    @Override
+    public Cookie generateJWTCookie(String jwtToken) {
+        Cookie jwtCookie = new Cookie("JWT", jwtToken);
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setSecure(true);
+        jwtCookie.setPath("/");
+        jwtCookie.setMaxAge(expirationTime / 1000);
+        return jwtCookie;
     }
 
     private Claims getTokenBody(String token) {
