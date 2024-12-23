@@ -21,7 +21,7 @@ function loadProducts(page) {
         categoryId: categoryId || ''
     });
 
-    fetch(`/products/search?${queryParams.toString()}`)
+    fetch(`/api/products/search?${queryParams.toString()}`)
         .then(response => response.json())
         .then(data => {
             const productTableBody = document.getElementById('productTableBody');

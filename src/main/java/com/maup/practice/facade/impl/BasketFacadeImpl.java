@@ -48,6 +48,6 @@ public class BasketFacadeImpl implements BasketFacade {
 
     private UserModel getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userService.findByUsername(username);
+        return userService.findByEmail(username);
     }
 }

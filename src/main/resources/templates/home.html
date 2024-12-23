@@ -10,7 +10,7 @@
 <body>
 <h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1>
 
-<form th:action="@{/logout}" method="post">
+<form th:action="@{/api/auth/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
 
@@ -73,8 +73,8 @@
 <table border="1">
     <thead>
     <tr>
-        <th>Product ID</th>
-        <th>Name</th>
+        <th>Product</th>
+        <th>Description</th>
         <th>Quantity</th>
         <th>Price</th>
     </tr>

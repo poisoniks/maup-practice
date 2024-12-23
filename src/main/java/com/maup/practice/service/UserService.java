@@ -6,5 +6,5 @@ public interface UserService {
     void saveUser(UserModel user);
     void deleteUser(UserModel user);
     boolean existsByEmail(String email);
-    UserModel findByUsername(String username);
+    UserModel findByEmail(String email);
 }

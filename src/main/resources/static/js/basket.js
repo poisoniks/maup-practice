@@ -1,5 +1,5 @@
 function fetchBasket() {
-    fetch('/basket/get')
+    fetch('/api/basket/get')
         .then(response => response.json())
         .then(data => {
             const basketContents = document.getElementById('basketContents');
@@ -8,10 +8,10 @@ function fetchBasket() {
             data.items.forEach(item => {
                 const row = `
                     <tr>
-                        <td>${item.productId}</td>
-                        <td>${item.productName}</td>
+                        <td>${item.product.name}</td>
+                        <td>${item.product.description}</td>
                         <td>${item.quantity}</td>
-                        <td>${item.price}</td>
+                        <td>${item.product.price}</td>
                     </tr>
                 `;
                 basketContents.innerHTML += row;
@@ -21,8 +21,8 @@ function fetchBasket() {
 }
 
 function addToBasket(productId, quantity) {
-    fetch(`/basket/add?productId=${productId}&quantity=${quantity}`, {
-        method: 'POST',
+    fetch(`/api/basket/add?productId=${productId}&quantity=${quantity}`, {
+        method: 'PUT',
     })
         .then(response => {
             if (response.ok) {
@@ -36,7 +36,7 @@ function addToBasket(productId, quantity) {
 }
 
 function removeFromBasket(productId) {
-    fetch(`/basket/remove?productId=${productId}`, {
+    fetch(`/api/basket/remove?productId=${productId}`, {
         method: 'DELETE',
     })
         .then(response => {
@@ -51,7 +51,7 @@ function removeFromBasket(productId) {
 }
 
 function clearBasket() {
-    fetch('/basket/clear', {
+    fetch('/api/basket/clear', {
         method: 'DELETE',
     })
         .then(response => {

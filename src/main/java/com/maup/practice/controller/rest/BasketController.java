@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/basket")
+@RequestMapping("/api/basket")
 public class BasketController {
 
     @Autowired
@@ -19,7 +19,7 @@ public class BasketController {
         return ResponseEntity.ok(basketFacade.getOrCreateBasket());
     }
 
-    @PostMapping("/add")
+    @PutMapping("/add")
     public ResponseEntity<String> addToBasket(
             @RequestParam Long productId,
             @RequestParam int quantity) {
