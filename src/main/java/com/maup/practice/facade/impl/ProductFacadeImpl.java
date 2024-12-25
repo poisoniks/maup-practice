@@ -50,8 +50,9 @@ public class ProductFacadeImpl implements ProductFacade {
     private Converter<SupplierModel, SupplierDTO> supplierModelConverter;
 
     @Override
-    public Page<ProductDTO> findProductsByFilters(BigDecimal minPrice, BigDecimal maxPrice, Long brandId, Long supplierId, Long categoryId, String name, Pageable pageable) {
-        return productService.findProductsByFilters(minPrice, maxPrice, brandId, supplierId, categoryId, name, pageable)
+    public Page<ProductDTO> findProductsByFilters(BigDecimal minPrice, BigDecimal maxPrice, List<Long> brandIds, List<Long> supplierIds,
+                                                  List<Long> categoryIds, String name, Pageable pageable) {
+        return productService.findProductsByFilters(minPrice, maxPrice, brandIds, supplierIds, categoryIds, name, pageable)
                 .map(productModelConverter::convert);
     }
 
@@ -74,5 +75,10 @@ public class ProductFacadeImpl implements ProductFacade {
         return supplierService.findAllSuppliers().stream()
                 .map(supplierModelConverter::convert)
                 .toList();
+    }
+
+    @Override
+    public ProductDTO findProductById(Long id) {
+        return productModelConverter.convert(productService.getProductById(id));
     }
 }

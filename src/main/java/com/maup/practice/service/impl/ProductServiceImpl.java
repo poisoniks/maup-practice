@@ -18,8 +18,9 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public Page<ProductModel> findProductsByFilters(BigDecimal minPrice, BigDecimal maxPrice, Long brandId, Long supplierId, Long categoryId, String name, Pageable pageable) {
-        return productRepository.findProductsByFilters(minPrice, maxPrice, brandId, supplierId, categoryId, name, pageable);
+    public Page<ProductModel> findProductsByFilters(BigDecimal minPrice, BigDecimal maxPrice, List<Long> brandIds, List<Long> supplierIds,
+                                                    List<Long> categoryIds, String name, Pageable pageable) {
+        return productRepository.findProductsByFilters(minPrice, maxPrice, brandIds, supplierIds, categoryIds, name, pageable);
     }
 
     @Override

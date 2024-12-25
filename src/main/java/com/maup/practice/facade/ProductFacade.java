@@ -13,12 +13,14 @@ import java.util.List;
 
 @Service
 public interface ProductFacade {
-    Page<ProductDTO> findProductsByFilters(BigDecimal minPrice, BigDecimal maxPrice, Long brandId, Long supplierId,
-                                           Long categoryId, String name, Pageable pageable);
+    Page<ProductDTO> findProductsByFilters(BigDecimal minPrice, BigDecimal maxPrice, List<Long> brandIds, List<Long> supplierIds,
+                                           List<Long> categoryIds, String name, Pageable pageable);
 
     List<CategoryDTO> findAllCategories();
 
     List<BrandDTO> findAllBrands();
 
     List<SupplierDTO> findAllSuppliers();
+
+    ProductDTO findProductById(Long id);
 }
