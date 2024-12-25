@@ -1,66 +1,67 @@
-function fetchBasket() {
-    fetch('/api/basket/get')
-        .then(response => response.json())
-        .then(data => {
-            const basketContents = document.getElementById('basketContents');
-            basketContents.innerHTML = '';
+document.addEventListener("DOMContentLoaded", () => {
+    const basketButton = document.getElementById("basket-button");
+    const basketDropdown = document.getElementById("basket-dropdown");
+    const basketCount = document.getElementById("basket-count");
+    const closeBasket = document.getElementById("close-basket");
+    const basketItemsContainer = document.getElementById("basket-items");
+    const basketTotalPrice = document.getElementById("basket-total-price");
 
-            data.items.forEach(item => {
-                const row = `
-                    <tr>
-                        <td>${item.product.name}</td>
-                        <td>${item.product.description}</td>
-                        <td>${item.quantity}</td>
-                        <td>${item.product.price}</td>
-                    </tr>
-                `;
-                basketContents.innerHTML += row;
+
+    const fetchBasket = async () => {
+        try {
+            const response = await fetch('/api/basket/get');
+            const data = await response.json();
+            updateBasket(data);
+        } catch (error) {
+            console.error("Error fetching basket data:", error);
+        }
+    };
+
+
+    const updateBasket = (basket) => {
+        basketCount.textContent = basket.items.reduce((sum, item) => sum + item.quantity, 0);
+        basketItemsContainer.innerHTML = basket.items.map(item => `
+            <div class="basket-item" data-product-id="${item.product.id}">
+                <span class="item-name">${item.product.name}</span>
+                <span class="item-quantity">x${item.quantity}</span>
+                <span class="item-price">$${(item.product.price * item.quantity).toFixed(2)}</span>
+                <button class="remove-item-button">🗑️</button>
+            </div>
+        `).join('');
+
+        const totalPrice = basket.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        basketTotalPrice.textContent = `$${totalPrice.toFixed(2)}`;
+
+        document.querySelectorAll(".remove-item-button").forEach(button => {
+            button.addEventListener("click", handleRemoveItem);
+        });
+    };
+
+    const handleRemoveItem = async (event) => {
+        const productId = event.target.closest(".basket-item").dataset.productId;
+
+        try {
+            const response = await fetch(`/api/basket/remove?productId=${productId}`, {
+                method: 'DELETE'
             });
-        })
-        .catch(error => console.error('Error fetching basket:', error));
-}
 
-function addToBasket(productId, quantity) {
-    fetch(`/api/basket/add?productId=${productId}&quantity=${quantity}`, {
-        method: 'PUT',
-    })
-        .then(response => {
             if (response.ok) {
-                alert('Product added to basket.');
                 fetchBasket();
             } else {
-                response.text().then(message => alert(message));
+                console.error("Failed to remove product from basket");
             }
-        })
-        .catch(error => console.error('Error adding product to basket:', error));
-}
+        } catch (error) {
+            console.error("Error removing product from basket:", error);
+        }
+    };
 
-function removeFromBasket(productId) {
-    fetch(`/api/basket/remove?productId=${productId}`, {
-        method: 'DELETE',
-    })
-        .then(response => {
-            if (response.ok) {
-                alert('Product removed from basket.');
-                fetchBasket();
-            } else {
-                alert('Failed to remove product.');
-            }
-        })
-        .catch(error => console.error('Error removing product from basket:', error));
-}
+    basketButton.addEventListener("click", () => {
+        basketDropdown.style.display = basketDropdown.style.display === "block" ? "none" : "block";
+    });
 
-function clearBasket() {
-    fetch('/api/basket/clear', {
-        method: 'DELETE',
-    })
-        .then(response => {
-            if (response.ok) {
-                alert('Basket cleared.');
-                fetchBasket();
-            } else {
-                alert('Failed to clear basket.');
-            }
-        })
-        .catch(error => console.error('Error clearing basket:', error));
-}
+    closeBasket.addEventListener("click", () => {
+        basketDropdown.style.display = "none";
+    });
+
+    fetchBasket();
+});
