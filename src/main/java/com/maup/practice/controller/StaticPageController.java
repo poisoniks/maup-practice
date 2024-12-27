@@ -1,7 +1,9 @@
 package com.maup.practice.controller;
 
 import com.maup.practice.dto.ProductDTO;
+import com.maup.practice.dto.UserProfileDTO;
 import com.maup.practice.facade.ProductFacade;
+import com.maup.practice.facade.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,9 @@ public class StaticPageController {
 
     @Autowired
     private ProductFacade productFacade;
+
+    @Autowired
+    private UserFacade userFacade;
 
     @GetMapping("/")
     public String root(Model model) {
@@ -31,4 +36,15 @@ public class StaticPageController {
         model.addAttribute("product", product);
         return "product";
     }
+
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        UserProfileDTO userProfile = userFacade.getUserProfile();
+        if (userProfile == null || userProfile.isAnonymous()) {
+            return "redirect:/";
+        }
+        model.addAttribute("profile", userProfile);
+        return "profile";
+    }
+
 }
