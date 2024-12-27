@@ -47,4 +47,13 @@ public class StaticPageController {
         return "profile";
     }
 
+    @GetMapping("/settings")
+    public String settings() {
+        UserProfileDTO userProfile = userFacade.getUserProfile();
+        if (userProfile == null || userProfile.isAnonymous()) {
+            return "redirect:/";
+        }
+
+        return "settings";
+    }
 }

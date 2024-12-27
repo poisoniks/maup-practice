@@ -1,0 +1,49 @@
+.settings-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.settings-container h1 {
+    font-size: 24px;
+    color: #388E3C;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.language-settings {
+    margin-bottom: 20px;
+}
+
+.language-settings h2 {
+    font-size: 20px;
+    color: #263238;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.language-links {
+    display: flex;
+    gap: 10px;
+}
+
+.lang-button {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid #8BC34A;
+    border-radius: 3px;
+    background-color: #f8f8f8;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.lang-button:hover {
+    background-color: #8BC34A;
+    color: #fff;
+}

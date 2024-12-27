@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Settings - Household Appliance Shop</title>
+    <link rel="stylesheet" th:href="@{/css/settings.css}">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="settings-container">
+        <h1>Settings</h1>
+
+        <div class="language-settings">
+            <h2>Language</h2>
+
+            <p>Select your preferred language:</p>
+            <div class="language-links">
+                <a href="?lang=en" class="lang-button">English</a>
+                <a href="?lang=ua" class="lang-button">Ukrainian</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
