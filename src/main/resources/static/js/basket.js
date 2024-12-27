@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBasket = document.getElementById("close-basket");
   const basketItemsContainer = document.getElementById("basket-items");
   const basketTotalPrice = document.getElementById("basket-total-price");
+  const startCheckoutButton = document.getElementById("start-checkout-button");
 
   window.fetchBasket = async function fetchBasket() {
     try {
@@ -91,6 +92,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   closeBasket.addEventListener("click", () => {
     basketDropdown.style.display = "none";
+  });
+
+  startCheckoutButton.addEventListener('click', function() {
+      window.location.href = '/checkout';
   });
 
   window.fetchBasket();
