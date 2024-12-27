@@ -61,4 +61,9 @@ public class StaticPageController {
     public String checkout() {
         return "checkout";
     }
+
+    @GetMapping("/orders")
+    public String orders() {
+        return "orders";
+    }
 }

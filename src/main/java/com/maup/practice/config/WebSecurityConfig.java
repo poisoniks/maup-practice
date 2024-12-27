@@ -43,6 +43,8 @@ public class WebSecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "/checkout").hasAnyRole(ROLE_ANONYMOUS, ROLE_USER, ROLE_MANAGER, ROLE_ADMIN)
 
+                        .requestMatchers(HttpMethod.GET, "/orders").hasAnyRole(ROLE_USER, ROLE_MANAGER, ROLE_ADMIN)
+
                         .requestMatchers("/api/basket/**").hasAnyRole(ROLE_ANONYMOUS, ROLE_USER, ROLE_MANAGER, ROLE_ADMIN)
 
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
@@ -54,6 +56,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/address/**").hasAnyRole(ROLE_ANONYMOUS, ROLE_USER, ROLE_MANAGER, ROLE_ADMIN)
 
                         .requestMatchers("/api/checkout/**").hasAnyRole(ROLE_ANONYMOUS, ROLE_USER, ROLE_MANAGER, ROLE_ADMIN)
+
+                        .requestMatchers("/api/orders/**").hasAnyRole(ROLE_USER, ROLE_MANAGER, ROLE_ADMIN)
 
                         .anyRequest().denyAll()
                 )

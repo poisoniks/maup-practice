@@ -6,6 +6,8 @@ import com.maup.practice.repository.*;
 import com.maup.practice.service.CheckoutService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -101,5 +103,10 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         basket.getItems().clear();
         basketRepository.save(basket);
+    }
+
+    @Override
+    public Page<OrderModel> getOrders(UserModel user, Pageable pageable) {
+        return orderRepository.findAllByFilters(user.getId(), pageable);
     }
 }
