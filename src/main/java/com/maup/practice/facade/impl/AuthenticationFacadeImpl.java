@@ -39,6 +39,11 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
     @Override
     @Transactional
     public String login(LoginRequest form) {
+        UserModel user = userService.findByEmail(form.getUsername());
+        if (user == null || !userService.checkPassword(user, form.getPassword())) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+
         String token = jwtService.generateToken(form.getUsername());
         String email = jwtService.extractUsername(token);
         UserModel loggedInUser = userService.findByEmail(email);

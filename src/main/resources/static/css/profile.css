@@ -1,0 +1,39 @@
+.user-profile-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.profile-container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #388E3C;
+    text-align: center;
+}
+
+.profile-info h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #263238;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.profile-field {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.profile-field label {
+    width: 120px;
+    font-weight: bold;
+    color: #757575;
+}
+
+.profile-field span {
+    flex: 1;
+    color: #333;
+}

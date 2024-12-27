@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -24,15 +25,15 @@ public class ProductController {
     public ResponseEntity<PagedModel<EntityModel<ProductDTO>>> searchProducts(
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) Long brandId,
-            @RequestParam(required = false) Long supplierId,
-            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) List<Long> brandIds,
+            @RequestParam(required = false) List<Long> supplierIds,
+            @RequestParam(required = false) List<Long> categoryIds,
             @RequestParam(required = false) String name,
             Pageable pageable,
             PagedResourcesAssembler<ProductDTO> assembler
     ) {
         Page<ProductDTO> productsPage = productFacade.findProductsByFilters(
-                minPrice, maxPrice, brandId, supplierId, categoryId, name, pageable
+                minPrice, maxPrice, brandIds, supplierIds, categoryIds, name, pageable
         );
 
         return ResponseEntity.ok(assembler.toModel(productsPage));

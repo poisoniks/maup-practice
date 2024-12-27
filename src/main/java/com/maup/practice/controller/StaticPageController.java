@@ -1,27 +1,59 @@
 package com.maup.practice.controller;
 
-import com.maup.practice.dto.RegistrationRequest;
+import com.maup.practice.dto.ProductDTO;
+import com.maup.practice.dto.UserProfileDTO;
+import com.maup.practice.facade.ProductFacade;
+import com.maup.practice.facade.UserFacade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class StaticPageController {
 
+    @Autowired
+    private ProductFacade productFacade;
+
+    @Autowired
+    private UserFacade userFacade;
+
     @GetMapping("/")
-    public String root() {
+    public String root(Model model) {
+        model.addAttribute("categories", productFacade.findAllCategories());
+        model.addAttribute("brands", productFacade.findAllBrands());
+        model.addAttribute("suppliers", productFacade.findAllSuppliers());
         return "home";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
+    @GetMapping("/product/{id}")
+    public String product(@PathVariable Long id, Model model) {
+        ProductDTO product = productFacade.findProductById(id);
+        if (product == null) {
+            return "redirect:/";
+        }
+        model.addAttribute("product", product);
+        return "product";
     }
 
-    @GetMapping("/register")
-    public String getRegisterPage(Model model) {
-        RegistrationRequest userDto = new RegistrationRequest();
-        model.addAttribute("user", userDto);
-        return "register";
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        UserProfileDTO userProfile = userFacade.getUserProfile();
+        if (userProfile == null || userProfile.isAnonymous()) {
+            return "redirect:/";
+        }
+        model.addAttribute("profile", userProfile);
+        return "profile";
+    }
+
+    @GetMapping("/settings")
+    public String settings() {
+        UserProfileDTO userProfile = userFacade.getUserProfile();
+        if (userProfile == null || userProfile.isAnonymous()) {
+            return "redirect:/";
+        }
+
+        return "settings";
     }
 }

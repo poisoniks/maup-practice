@@ -10,6 +10,10 @@ public class BrandModelToDTOConverter implements Converter<BrandModel, BrandDTO>
 
     @Override
     public BrandDTO convert(BrandModel brandModel) {
+        if (brandModel == null) {
+            return null;
+        }
+
         BrandDTO brandDTO = new BrandDTO();
         brandDTO.setId(brandModel.getId());
         brandDTO.setName(brandModel.getName());

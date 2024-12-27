@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Product Page - Household Appliance Shop</title>
+    <link rel="stylesheet" th:href="@{/css/product-page.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/product-page.js}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div id="popup-message" class="popup-message" style="display: none;"></div>
+
+    <div class="product-container">
+        <div class="product-image">
+            <img th:src="@{/images/product-default.jpg}" alt="Product Image">
+        </div>
+
+        <div class="product-info">
+            <input type="hidden" id="productId" th:value="${product.id}"/>
+
+            <h1 class="product-name" th:text="${product.name}">Product Name</h1>
+
+            <div class="product-meta">
+                <span>Category: <span th:text="${product.category.name}">CategoryName</span></span><br/>
+                <span>Brand: <span th:text="${product.brand.name}">BrandName</span></span>
+            </div>
+
+            <div class="product-stock-price">
+                <div>
+                    Stock: <span id="stockQuantity" th:text="${product.stockQuantity}">10</span>
+                </div>
+                <div>
+                    Price: $<span id="productPrice" th:text="${product.price}">100</span>
+                </div>
+            </div>
+
+            <div class="product-purchase">
+                <label for="quantity">Quantity:</label>
+                <div class="quantity-controls">
+                    <button id="minus-button">-</button>
+                    <input type="number" id="quantity" value="1" min="1">
+                    <button id="plus-button">+</button>
+                </div>
+                <button id="add-to-cart-button" class="add-to-cart">Add to cart</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-description">
+        <h2>Description</h2>
+        <p th:text="${product.description}">Product description goes here...</p>
+    </div>
+
+    <div class="supplier-info">
+        <h2>Supplier</h2>
+        <p>
+            <strong th:text="${product.supplier.name}">Supplier Name</strong><br>
+            <span th:text="${product.supplier.address}">Address</span><br>
+            <span th:text="${product.supplier.contactInfo}">Contact info</span>
+        </p>
+    </div>
+
+</div>
+</body>
+</html>

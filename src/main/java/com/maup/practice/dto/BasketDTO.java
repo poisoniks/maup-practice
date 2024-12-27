@@ -1,11 +1,10 @@
 package com.maup.practice.dto;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class BasketDTO {
     private Long id;
-    private Set<BasketItemDTO> items = new HashSet<>();
+    private Set<BasketItemDTO> items;
 
     public Long getId() {
         return id;

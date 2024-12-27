@@ -1,87 +1,77 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
-    <title>Product List</title>
-    <script th:src="@{/js/home.js}" defer></script>
-    <script th:src="@{/js/basket.js}" defer></script>
+    <title>Product Search - Household Appliance Shop</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/search.js}"></script>
 </head>
 <body>
-<h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1>
+<div layout:fragment="content">
+    <div class="search-container">
 
-<form th:action="@{/api/auth/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+        <div class="filters">
 
-<h2>Products</h2>
+            <section class="price-filter">
+                <h2><strong>Price</strong></h2>
+                <div class="multi-range-slider">
+                    <div class="slider-track"></div>
+                    <input type="range" id="minPrice" class="slider" min="0" max="5000" value="0">
+                    <input type="range" id="maxPrice" class="slider" min="0" max="5000" value="5000">
+                </div>
+                <div class="price-inputs">
+                    <input type="number" id="minPriceDisplay" name="minPriceDisplay" value="0" min="0" max="5000" class="price-input">
+                    <input type="number" id="maxPriceDisplay" name="maxPriceDisplay" value="5000" min="0" max="5000" class="price-input">
+                </div>
+            </section>
 
-<form id="filterForm">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name">
+            <section class="category-filter">
+                <h2><strong>Categories</strong></h2>
+                <div th:each="category : ${categories}">
+                    <input type="checkbox" th:id="${'cat-' + category.id}" th:value="${category.id}">
+                    <label th:for="${'cat-' + category.id}" th:text="${category.name}"></label>
+                </div>
+            </section>
 
-    <label for="minPrice">Min Price:</label>
-    <input type="number" id="minPrice" name="minPrice" step="0.01">
+            <section class="brand-filter">
+                <h2><strong>Brands</strong></h2>
+                <div th:each="brand : ${brands}">
+                    <input type="checkbox" th:id="${'brand-' + brand.id}" th:value="${brand.id}">
+                    <label th:for="${'brand-' + brand.id}" th:text="${brand.name}"></label>
+                </div>
+            </section>
 
-    <label for="maxPrice">Max Price:</label>
-    <input type="number" id="maxPrice" name="maxPrice" step="0.01">
+            <section class="supplier-filter">
+                <h2><strong>Suppliers</strong></h2>
+                <div th:each="supplier : ${suppliers}">
+                    <input type="checkbox" th:id="${'sup-' + supplier.id}" th:value="${supplier.id}">
+                    <label th:for="${'sup-' + supplier.id}" th:text="${supplier.name}"></label>
+                </div>
+            </section>
+        </div>
 
-    <label for="brandId">Brand ID:</label>
-    <input type="number" id="brandId" name="brandId">
+        <div class="right-panel">
 
-    <label for="supplierId">Supplier ID:</label>
-    <input type="number" id="supplierId" name="supplierId">
+            <div class="search-bar-container">
+                <label for="searchQuery">I am looking for...</label>
+                <input type="text" id="searchQuery" name="searchQuery" placeholder="Product name">
+                <button id="search-button">Search</button>
+            </div>
 
-    <label for="categoryId">Category ID:</label>
-    <input type="number" id="categoryId" name="categoryId">
+            <div id="spinner" class="spinner" style="display: none;">
+                <div class="spinner-icon"></div>
+            </div>
 
-    <button type="button" id="searchBtn">Search</button>
-</form>
+            <div class="search-results">
+                <!-- Product results will be displayed here -->
+            </div>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Stock</th>
-    </tr>
-    </thead>
-    <tbody id="productTableBody">
-    </tbody>
-</table>
+            <div id="pagination"></div>
 
-<div id="pagination">
-    <button id="prevPageBtn" disabled>Previous</button>
-    <span id="pageInfo">Page 1</span>
-    <button id="nextPageBtn" disabled>Next</button>
+        </div>
+    </div>
 </div>
-
-<h1>Basket Functionality Test</h1>
-
-<div>
-    <h2>Basket Actions</h2>
-    <button onclick="fetchBasket()">Get Basket</button>
-    <button onclick="addToBasket(1, 2)">Add Product 1 (Qty: 2)</button>
-    <button onclick="addToBasket(2, 1)">Add Product 2 (Qty: 1)</button>
-    <button onclick="removeFromBasket(1)">Remove Product 1</button>
-    <button onclick="clearBasket()">Clear Basket</button>
-</div>
-
-<h2>Basket Contents</h2>
-<table border="1">
-    <thead>
-    <tr>
-        <th>Product</th>
-        <th>Description</th>
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
-    </thead>
-    <tbody id="basketContents">
-
-    </tbody>
-</table>
 </body>
 </html>

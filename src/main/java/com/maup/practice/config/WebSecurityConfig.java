@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,28 +17,40 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.maup.practice.util.Constants.*;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager,
-                                                   JwtAuthFilter jwtAuthFilter, AnonymousUserAuthenticationFilter anonymousUserAuthenticationFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            AuthenticationManager authenticationManager,
+            JwtAuthFilter jwtAuthFilter,
+            AnonymousUserAuthenticationFilter anonymousUserAuthenticationFilter
+    ) throws Exception {
         http
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.GET, "/").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/login/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/register/**").permitAll()
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.GET, "/", "/js/**", "/css/**", "/images/**").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/product/**").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/profile").hasAnyRole(ROLE_USER, ROLE_MANAGER, ROLE_ADMIN)
+
+                        .requestMatchers(HttpMethod.GET, "/settings").hasAnyRole(ROLE_USER, ROLE_MANAGER, ROLE_ADMIN)
+
+                        .requestMatchers("/api/basket/**").hasAnyRole(ROLE_ANONYMOUS, ROLE_USER, ROLE_MANAGER, ROLE_ADMIN)
+
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/js/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/basket/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/basket/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/basket/**").permitAll()
-                        .anyRequest().authenticated()
+
+                        .requestMatchers("/api/profile/**").hasAnyRole(ROLE_ANONYMOUS, ROLE_USER, ROLE_MANAGER, ROLE_ADMIN)
+
+                        .anyRequest().denyAll()
                 )
-                .logout(LogoutConfigurer::permitAll)
                 .authenticationManager(authenticationManager)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(anonymousUserAuthenticationFilter, JwtAuthFilter.class)

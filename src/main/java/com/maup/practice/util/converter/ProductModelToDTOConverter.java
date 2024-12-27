@@ -26,6 +26,10 @@ public class ProductModelToDTOConverter implements Converter<ProductModel, Produ
 
     @Override
     public ProductDTO convert(ProductModel productModel) {
+        if (productModel == null) {
+            return null;
+        }
+
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(productModel.getId());
         productDTO.setName(productModel.getName());
