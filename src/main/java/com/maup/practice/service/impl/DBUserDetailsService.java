@@ -4,14 +4,11 @@ import com.maup.practice.model.RoleModel;
 import com.maup.practice.model.UserModel;
 import com.maup.practice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-
-import java.util.stream.Collectors;
 
 @Service
 public class DBUserDetailsService implements UserDetailsService {
@@ -28,10 +25,10 @@ public class DBUserDetailsService implements UserDetailsService {
         return User.withUsername(userModel.getEmail())
                 .password(userModel.getPassword() == null ? "" : userModel.getPassword())
                 .disabled(!userModel.isEnabled())
-                .authorities(userModel.getRoles().stream()
+                .roles(userModel.getRoles().stream()
                         .map(RoleModel::getName)
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList()))
+                        .toList()
+                        .toArray(new String[0]))
                 .build();
     }
 }
