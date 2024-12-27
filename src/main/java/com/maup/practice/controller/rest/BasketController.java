@@ -2,6 +2,7 @@ package com.maup.practice.controller.rest;
 
 import com.maup.practice.dto.BasketDTO;
 import com.maup.practice.exception.ProductNotFoundException;
+import com.maup.practice.exception.StockExceededException;
 import com.maup.practice.facade.BasketFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,8 @@ public class BasketController {
             basketFacade.addToBasket(productId, quantity);
         } catch (ProductNotFoundException e) {
             return ResponseEntity.badRequest().body("Product not found.");
+        } catch (StockExceededException e) {
+            return ResponseEntity.badRequest().body("Requested quantity exceeds stock available.");
         }
         return ResponseEntity.ok("Product added to basket.");
     }

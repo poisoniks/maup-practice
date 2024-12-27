@@ -13,6 +13,10 @@ public class UserModelToUserProfileDTOConverter implements Converter<UserModel, 
 
     @Override
     public UserProfileDTO convert(UserModel userModel) {
+        if (userModel == null) {
+            return null;
+        }
+
         UserProfileDTO userProfileDTO = new UserProfileDTO();
         userProfileDTO.setEmail(userModel.getEmail());
         userProfileDTO.setFirstName(userModel.getFirstName());

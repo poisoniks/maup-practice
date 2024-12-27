@@ -10,9 +10,15 @@ public class SupplierModelToDTOConverter implements Converter<SupplierModel, Sup
 
     @Override
     public SupplierDTO convert(SupplierModel supplierModel) {
+        if (supplierModel == null) {
+            return null;
+        }
+
         SupplierDTO supplierDTO = new SupplierDTO();
         supplierDTO.setId(supplierModel.getId());
         supplierDTO.setName(supplierModel.getName());
+        supplierDTO.setAddress(supplierModel.getAddress());
+        supplierDTO.setContactInfo(supplierModel.getContactInfo());
         return supplierDTO;
     }
 }

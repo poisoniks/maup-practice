@@ -10,6 +10,10 @@ public class CategoryModelToDTOConverter implements Converter<CategoryModel, Cat
 
     @Override
     public CategoryDTO convert(CategoryModel categoryModel) {
+        if (categoryModel == null) {
+            return null;
+        }
+
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setId(categoryModel.getId());
         categoryDTO.setName(categoryModel.getName());

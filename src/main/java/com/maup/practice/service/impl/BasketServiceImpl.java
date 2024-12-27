@@ -1,6 +1,7 @@
 package com.maup.practice.service.impl;
 
 import com.maup.practice.exception.ProductNotFoundException;
+import com.maup.practice.exception.StockExceededException;
 import com.maup.practice.model.BasketItemModel;
 import com.maup.practice.model.BasketModel;
 import com.maup.practice.model.ProductModel;
@@ -52,9 +53,14 @@ public class BasketServiceImpl implements BasketService {
                 .findFirst()
                 .orElse(new BasketItemModel());
 
+        int newQuantity = item.getQuantity() + quantity;
+        if (newQuantity > product.getStockQuantity()) {
+            throw new StockExceededException("Requested quantity exceeds stock available");
+        }
+
         item.setBasket(basket);
         item.setProduct(product);
-        item.setQuantity(item.getQuantity() + quantity);
+        item.setQuantity(newQuantity);
 
         basket.getItems().add(item);
         basketRepository.save(basket);
@@ -81,10 +87,23 @@ public class BasketServiceImpl implements BasketService {
         BasketModel userBasket = getOrCreateBasketForUser(user);
 
         for (BasketItemModel item : anonymousBasket.getItems()) {
-            item.setBasket(null);
-            item.setBasket(userBasket);
-            basketItemRepository.save(item);
-            userBasket.getItems().add(item);
+            ProductModel product = item.getProduct();
+            BasketItemModel existingItem = userBasket.getItems().stream()
+                    .filter(basketItem -> basketItem.getProduct().getId().equals(product.getId()))
+                    .findFirst()
+                    .orElse(new BasketItemModel());
+
+            int newQuantity = existingItem.getQuantity() + item.getQuantity();
+            if (newQuantity > product.getStockQuantity()) {
+                newQuantity = product.getStockQuantity();
+            }
+
+            existingItem.setBasket(userBasket);
+            existingItem.setProduct(product);
+            existingItem.setQuantity(newQuantity);
+
+            userBasket.getItems().add(existingItem);
+            basketItemRepository.save(existingItem);
         }
 
         basketRepository.save(userBasket);

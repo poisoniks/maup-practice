@@ -19,6 +19,10 @@ public class BasketModelToDTOConverter implements Converter<BasketModel, BasketD
 
     @Override
     public BasketDTO convert(BasketModel source) {
+        if (source == null) {
+            return null;
+        }
+
         BasketDTO basketDTO = new BasketDTO();
         basketDTO.setId(source.getId());
         basketDTO.setItems(convertItems(source.getItems()));
