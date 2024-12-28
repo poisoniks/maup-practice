@@ -50,7 +50,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean isProductInUse(Long id) {
-        return basketItemRepository.existsByProduct(productRepository.findById(id).orElse(null))
-                || orderItemRepository.existsByProduct(productRepository.findById(id).orElse(null));
+        ProductModel product = productRepository.findById(id).orElse(null);
+        return basketItemRepository.existsByProduct(product)
+                || orderItemRepository.existsByProduct(product);
     }
 }
