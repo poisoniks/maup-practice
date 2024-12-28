@@ -12,19 +12,19 @@ import static com.maup.practice.util.Constants.ROLE_MANAGER;
 public class UserModelToUserProfileDTOConverter implements Converter<UserModel, UserProfileDTO> {
 
     @Override
-    public UserProfileDTO convert(UserModel userModel) {
-        if (userModel == null) {
+    public UserProfileDTO convert(UserModel source) {
+        if (source == null) {
             return null;
         }
 
         UserProfileDTO userProfileDTO = new UserProfileDTO();
-        userProfileDTO.setEmail(userModel.getEmail());
-        userProfileDTO.setFirstName(userModel.getFirstName());
-        userProfileDTO.setLastName(userModel.getLastName());
-        userProfileDTO.setPhone(userModel.getPhoneNumber());
-        userProfileDTO.setAnonymous(userModel.isAnonymous());
-        userProfileDTO.setManager(hasRole(userModel, ROLE_MANAGER));
-        userProfileDTO.setAdmin(hasRole(userModel, ROLE_ADMIN));
+        userProfileDTO.setEmail(source.getEmail());
+        userProfileDTO.setFirstName(source.getFirstName());
+        userProfileDTO.setLastName(source.getLastName());
+        userProfileDTO.setPhone(source.getPhoneNumber());
+        userProfileDTO.setAnonymous(source.isAnonymous());
+        userProfileDTO.setManager(hasRole(source, ROLE_MANAGER));
+        userProfileDTO.setAdmin(hasRole(source, ROLE_ADMIN));
         return userProfileDTO;
     }
 

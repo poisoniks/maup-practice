@@ -15,11 +15,7 @@ public interface ProductService {
 
     void deleteProduct(Long id);
 
-    List<ProductModel> getAllProducts();
-
     ProductModel getProductById(Long id);
-
-    ProductModel getProductByName(String name);
 
     boolean isProductInUse(Long id);
 }

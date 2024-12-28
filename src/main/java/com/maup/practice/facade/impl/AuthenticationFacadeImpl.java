@@ -16,14 +16,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationFacadeImpl implements AuthenticationFacade {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final JWTService jwtService;
+    private final BasketService basketService;
 
     @Autowired
-    private JWTService jwtService;
-
-    @Autowired
-    private BasketService basketService;
+    public AuthenticationFacadeImpl(UserService userService, JWTService jwtService, BasketService basketService) {
+        this.userService = userService;
+        this.jwtService = jwtService;
+        this.basketService = basketService;
+    }
 
     @Override
     @Transactional

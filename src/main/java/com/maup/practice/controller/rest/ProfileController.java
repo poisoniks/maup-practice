@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/profile")
 public class ProfileController {
 
+    private final UserFacade userFacade;
+
     @Autowired
-    private UserFacade userFacade;
+    public ProfileController(UserFacade userFacade) {
+        this.userFacade = userFacade;
+    }
 
     @GetMapping("/getUserProfile")
     public ResponseEntity<UserProfileDTO> getUserProfile() {

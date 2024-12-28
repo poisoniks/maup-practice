@@ -12,8 +12,12 @@ import java.util.List;
 @RequestMapping("/api/address")
 public class AddressController {
 
+    private final AddressFacade addressFacade;
+
     @Autowired
-    private AddressFacade addressFacade;
+    public AddressController(AddressFacade addressFacade) {
+        this.addressFacade = addressFacade;
+    }
 
     @PostMapping("/add")
     public ResponseEntity<Void> add(@RequestBody AddressDTO addressDTO) {

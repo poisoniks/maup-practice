@@ -2,6 +2,7 @@ package com.maup.practice.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class OrderDetailsDTO {
     private Long id;
@@ -66,5 +67,17 @@ public class OrderDetailsDTO {
 
     public void setOrderItems(List<OrderItemDTO> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDetailsDTO that = (OrderDetailsDTO) o;
+        return Double.compare(total, that.total) == 0 && Objects.equals(id, that.id) && Objects.equals(status, that.status) && Objects.equals(paymentMethod, that.paymentMethod) && Objects.equals(address, that.address) && Objects.equals(orderDate, that.orderDate) && Objects.equals(orderItems, that.orderItems);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, status, paymentMethod, address, orderDate, total, orderItems);
     }
 }

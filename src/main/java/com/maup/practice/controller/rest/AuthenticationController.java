@@ -19,12 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.maup.practice.util.Constants.JWT_COOKIE;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationController {
 
+    private static final String JWT_EXPIRED_COOKIE = "JWT=; Path=/; Secure; HttpOnly; SameSite=None; Max-Age=0";
+    private static final String SET_COOKIE_HEADER = "Set-Cookie";
+
+    private final AuthenticationFacade authenticationFacade;
+
     @Autowired
-    private AuthenticationFacade authenticationFacade;
+    public AuthenticationController(AuthenticationFacade authenticationFacade) {
+        this.authenticationFacade = authenticationFacade;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<List<ObjectError>> signup(@Valid @RequestBody RegistrationRequest requestDto, BindingResult bindingResult) {
@@ -58,7 +67,7 @@ public class AuthenticationController {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletResponse response) {
-        Cookie jwtCookie = new Cookie("JWT", null);
+        Cookie jwtCookie = new Cookie(JWT_COOKIE, null);
         jwtCookie.setPath("/");
         jwtCookie.setMaxAge(0);
         jwtCookie.setSecure(true);
@@ -66,8 +75,7 @@ public class AuthenticationController {
 
         response.addCookie(jwtCookie);
 
-        response.setHeader("Set-Cookie",
-                "JWT=; Path=/; Secure; HttpOnly; SameSite=None; Max-Age=0");
+        response.setHeader(SET_COOKIE_HEADER, JWT_EXPIRED_COOKIE);
 
         return ResponseEntity.ok().build();
     }

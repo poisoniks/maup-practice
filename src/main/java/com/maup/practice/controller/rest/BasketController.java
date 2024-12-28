@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/basket")
 public class BasketController {
 
+    private final BasketFacade basketFacade;
+
     @Autowired
-    private BasketFacade basketFacade;
+    public BasketController(BasketFacade basketFacade) {
+        this.basketFacade = basketFacade;
+    }
 
     @GetMapping("/get")
     public ResponseEntity<BasketDTO> getBasket() {

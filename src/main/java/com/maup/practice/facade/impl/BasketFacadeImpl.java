@@ -13,14 +13,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class BasketFacadeImpl implements BasketFacade {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final BasketService basketService;
+    private final Converter<BasketModel, BasketDTO> basketConverter;
 
     @Autowired
-    private BasketService basketService;
-
-    @Autowired
-    private Converter<BasketModel, BasketDTO> basketConverter;
+    public BasketFacadeImpl(UserService userService, BasketService basketService, Converter<BasketModel, BasketDTO> basketConverter) {
+        this.userService = userService;
+        this.basketService = basketService;
+        this.basketConverter = basketConverter;
+    }
 
     @Override
     public BasketDTO getOrCreateBasket() {

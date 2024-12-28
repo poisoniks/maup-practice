@@ -19,17 +19,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class BasketServiceImpl implements BasketService {
 
-    @Autowired
-    private BasketRepository basketRepository;
+    private final BasketRepository basketRepository;
+    private final BasketItemRepository basketItemRepository;
+    private final ProductRepository productRepository;
+    private final UserService userService;
 
     @Autowired
-    private BasketItemRepository basketItemRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private UserService userService;
+    public BasketServiceImpl(BasketRepository basketRepository, BasketItemRepository basketItemRepository,
+                             ProductRepository productRepository, UserService userService) {
+        this.basketRepository = basketRepository;
+        this.basketItemRepository = basketItemRepository;
+        this.productRepository = productRepository;
+        this.userService = userService;
+    }
 
     @Override
     public BasketModel getOrCreateBasketForUser(UserModel user) {

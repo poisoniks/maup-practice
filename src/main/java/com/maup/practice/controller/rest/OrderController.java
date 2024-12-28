@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/orders")
 public class OrderController {
 
+    private final CheckoutFacade checkoutFacade;
+
     @Autowired
-    private CheckoutFacade checkoutFacade;
+    public OrderController(CheckoutFacade checkoutFacade) {
+        this.checkoutFacade = checkoutFacade;
+    }
 
     @GetMapping("/getOrders")
     public ResponseEntity<PagedModel<EntityModel<OrderDetailsDTO>>> getOrders(Pageable pageable, PagedResourcesAssembler<OrderDetailsDTO> assembler) {

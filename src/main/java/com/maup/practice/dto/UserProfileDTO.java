@@ -1,5 +1,7 @@
 package com.maup.practice.dto;
 
+import java.util.Objects;
+
 public class UserProfileDTO {
     private String email;
     private String firstName;
@@ -63,5 +65,17 @@ public class UserProfileDTO {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserProfileDTO that = (UserProfileDTO) o;
+        return isAnonymous == that.isAnonymous && isManager == that.isManager && isAdmin == that.isAdmin && Objects.equals(email, that.email) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(phone, that.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, firstName, lastName, phone, isAnonymous, isManager, isAdmin);
     }
 }

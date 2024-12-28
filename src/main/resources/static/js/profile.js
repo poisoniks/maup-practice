@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (response.ok) {
-          window.location.reload();
+            window.location.href = "/";
         } else {
           console.error("Failed to log out.");
         }

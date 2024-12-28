@@ -1,5 +1,7 @@
 package com.maup.practice.dto;
 
+import java.util.Objects;
+
 public class OrderItemDTO {
     private String productName;
     private Double price;
@@ -36,5 +38,17 @@ public class OrderItemDTO {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderItemDTO that = (OrderItemDTO) o;
+        return Objects.equals(productName, that.productName) && Objects.equals(price, that.price) && Objects.equals(quantity, that.quantity) && Objects.equals(totalPrice, that.totalPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productName, price, quantity, totalPrice);
     }
 }

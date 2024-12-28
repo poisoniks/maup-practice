@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import static com.maup.practice.util.Constants.JWT_COOKIE;
+
 @Service
 public class JWTServiceImpl implements JWTService {
 
@@ -60,7 +62,7 @@ public class JWTServiceImpl implements JWTService {
 
     @Override
     public Cookie generateJWTCookie(String jwtToken) {
-        Cookie jwtCookie = new Cookie("JWT", jwtToken);
+        Cookie jwtCookie = new Cookie(JWT_COOKIE, jwtToken);
         jwtCookie.setHttpOnly(true);
         jwtCookie.setSecure(true);
         jwtCookie.setPath("/");

@@ -11,8 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class BasketItemModelToDTOConverter implements Converter<BasketItemModel, BasketItemDTO> {
 
+    private final Converter<ProductModel, ProductDTO> productConverter;
+
     @Autowired
-    private Converter<ProductModel, ProductDTO> productConverter;
+    public BasketItemModelToDTOConverter(Converter<ProductModel, ProductDTO> productConverter) {
+        this.productConverter = productConverter;
+    }
 
     @Override
     public BasketItemDTO convert(BasketItemModel source) {

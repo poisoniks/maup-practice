@@ -15,30 +15,32 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductModelToDTOConverter implements Converter<ProductModel, ProductDTO> {
 
-    @Autowired
-    private Converter<BrandModel, BrandDTO> brandModelToDTOConverter;
+    private final Converter<BrandModel, BrandDTO> brandModelToDTOConverter;
+    private final Converter<CategoryModel, CategoryDTO> categoryModelToDTOConverter;
+    private final Converter<SupplierModel, SupplierDTO> supplierModelToDTOConverter;
 
     @Autowired
-    private Converter<CategoryModel, CategoryDTO> categoryModelToDTOConverter;
-
-    @Autowired
-    private Converter<SupplierModel, SupplierDTO> supplierModelToDTOConverter;
+    public ProductModelToDTOConverter(Converter<BrandModel, BrandDTO> brandModelToDTOConverter, Converter<CategoryModel, CategoryDTO> categoryModelToDTOConverter, Converter<SupplierModel, SupplierDTO> supplierModelToDTOConverter) {
+        this.brandModelToDTOConverter = brandModelToDTOConverter;
+        this.categoryModelToDTOConverter = categoryModelToDTOConverter;
+        this.supplierModelToDTOConverter = supplierModelToDTOConverter;
+    }
 
     @Override
-    public ProductDTO convert(ProductModel productModel) {
-        if (productModel == null) {
+    public ProductDTO convert(ProductModel source) {
+        if (source == null) {
             return null;
         }
 
         ProductDTO productDTO = new ProductDTO();
-        productDTO.setId(productModel.getId());
-        productDTO.setName(productModel.getName());
-        productDTO.setPrice(productModel.getPrice().doubleValue());
-        productDTO.setDescription(productModel.getDescription());
-        productDTO.setStockQuantity(productModel.getStockQuantity());
-        productDTO.setBrand(brandModelToDTOConverter.convert(productModel.getBrand()));
-        productDTO.setCategory(categoryModelToDTOConverter.convert(productModel.getCategory()));
-        productDTO.setSupplier(supplierModelToDTOConverter.convert(productModel.getSupplier()));
+        productDTO.setId(source.getId());
+        productDTO.setName(source.getName());
+        productDTO.setPrice(source.getPrice().doubleValue());
+        productDTO.setDescription(source.getDescription());
+        productDTO.setStockQuantity(source.getStockQuantity());
+        productDTO.setBrand(brandModelToDTOConverter.convert(source.getBrand()));
+        productDTO.setCategory(categoryModelToDTOConverter.convert(source.getCategory()));
+        productDTO.setSupplier(supplierModelToDTOConverter.convert(source.getSupplier()));
         return productDTO;
     }
 }
