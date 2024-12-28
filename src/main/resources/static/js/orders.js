@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(url)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("Failed to fetch orders");
+                    throw new Error(msgErrorLoadingOrders);
                 }
                 return response.json();
             })
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(err => {
                 console.error("Error fetching orders:", err);
-                ordersList.innerHTML = `<p style="color:red;">Error loading orders.</p>`;
+                ordersList.innerHTML = `<p style="color:red;">${msgErrorLoadingOrders}</p>`;
             });
     }
 
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (orders.length === 0) {
-            ordersList.innerHTML = "<p>No orders found.</p>";
+            ordersList.innerHTML = `<p>${msgNoOrders}</p>`;
             return;
         }
 
@@ -48,11 +48,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const headerHtml = `
                 <div class="order-header">
-                    <span><strong>Order ID:</strong> ${order.id}</span>
-                    <span class="order-status"><strong>Status:</strong> ${order.status}</span>
-                    <span><strong>Payment Method:</strong> ${order.paymentMethod}</span>
-                    <span><strong>Address:</strong> ${order.address}</span>
-                    <span><strong>Order Date:</strong> ${order.orderDate}</span>
+                    <span><strong>${msgOrderId}</strong> ${order.id}</span>
+                    <span class="order-status">
+                        <strong>${msgStatus}</strong> ${order.status}
+                    </span>
+                    <span><strong>${msgPaymentMethod}</strong> ${order.paymentMethod}</span>
+                    <span><strong>${msgAddress}</strong> ${order.address}</span>
+                    <span><strong>${msgOrderDate}</strong> ${order.orderDate}</span>
                 </div>
             `;
 
@@ -60,10 +62,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 <table class="order-items-table">
                     <thead>
                         <tr>
-                            <th>Product</th>
-                            <th>Price (each)</th>
-                            <th>Quantity</th>
-                            <th>Line Total</th>
+                            <th>${msgTableHeaderProduct}</th>
+                            <th>${msgTableHeaderPrice}</th>
+                            <th>${msgTableHeaderQuantity}</th>
+                            <th>${msgTableHeaderLineTotal}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,10 +89,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 </table>
             `;
 
-            const summaryHtml = `<div class="order-summary">Total: $${(order.total || 0).toFixed(2)}</div>`;
+            const summaryHtml = `
+                <div class="order-summary">
+                    ${msgSummaryTotal} $${(order.total || 0).toFixed(2)}
+                </div>
+            `;
 
             orderCard.innerHTML = headerHtml + itemsHtml + summaryHtml;
-
             ordersList.appendChild(orderCard);
         });
     }
@@ -105,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const prevBtn = document.createElement("span");
             prevBtn.classList.add("page-link");
-            prevBtn.textContent = "Prev";
+            prevBtn.textContent = msgPaginationPrev;
 
             if (current > 0) {
                 prevBtn.addEventListener("click", () => {
@@ -134,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const nextBtn = document.createElement("span");
             nextBtn.classList.add("page-link");
-            nextBtn.textContent = "Next";
+            nextBtn.textContent = msgPaginationNext;
 
             if (current < totalPages - 1) {
                 nextBtn.addEventListener("click", () => {
@@ -145,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 nextBtn.classList.add("disabled");
             }
             paginationContainer.appendChild(nextBtn);
-
         }
     }
 });

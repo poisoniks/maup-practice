@@ -3,45 +3,53 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Checkout - Household Appliance Shop</title>
+    <title th:text="#{checkoutPage.title}">Checkout - Household Appliance Shop</title>
     <link rel="stylesheet" th:href="@{/css/checkout.css}"/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script th:src="@{/js/checkout.js}"></script>
 </head>
 <body>
 <div layout:fragment="content" class="checkout-container">
 
-    <h1>Checkout</h1>
+    <h1 th:text="#{checkoutPage.heading.checkout}">Checkout</h1>
 
     <div id="basket-container" class="checkout-section">
-        <h2>Your Basket</h2>
+        <h2 th:text="#{checkoutPage.heading.yourBasket}">Your Basket</h2>
         <div id="checkout-items"></div>
         <div class="total-price">
-            <strong>Total:</strong> <span id="basket-total">$0.00</span>
+            <strong th:text="#{checkoutPage.labelTotal}">Total:</strong>
+            <span id="basket-total">$0.00</span>
         </div>
     </div>
 
     <div id="address-container" class="checkout-section">
         <div class="existing-address-column">
-            <h2>Existing Address</h2>
+            <h2 th:text="#{checkoutPage.heading.existingAddress}">Existing Address</h2>
             <select id="addressSelect">
-                <option value="none">-- Choose existing address --</option>
+                <option value="none" th:text="#{checkoutPage.optionNone}">
+                    -- Choose existing address --
+                </option>
             </select>
         </div>
 
         <div class="new-address-column">
-            <h2>Enter New Address</h2>
+            <h2 th:text="#{checkoutPage.heading.enterNewAddress}">Enter New Address</h2>
             <div class="new-address-fields">
-                <label>Street:
+                <label>
+                    <span th:text="#{checkoutPage.labelStreet}">Street:</span>
                     <input type="text" id="newStreet">
                 </label>
-                <label>City:
+                <label>
+                    <span th:text="#{checkoutPage.labelCity}">City:</span>
                     <input type="text" id="newCity">
                 </label>
-                <label>State:
+                <label>
+                    <span th:text="#{checkoutPage.labelState}">State:</span>
                     <input type="text" id="newState">
                 </label>
-                <label>Country:
+                <label>
+                    <span th:text="#{checkoutPage.labelCountry}">Country:</span>
                     <input type="text" id="newCountry">
                 </label>
             </div>
@@ -49,37 +57,50 @@
     </div>
 
     <div id="payment-container" class="checkout-section">
-        <h2>Payment Information</h2>
+        <h2 th:text="#{checkoutPage.heading.paymentInfo}">Payment Information</h2>
         <div class="payment-fields">
-            <label>Card Holder:
+            <label>
+                <span th:text="#{checkoutPage.labelCardHolder}">Card Holder:</span>
                 <input type="text" id="cardHolder">
             </label>
-            <label>Card Number:
+            <label>
+                <span th:text="#{checkoutPage.labelCardNumber}">Card Number:</span>
                 <input type="text" id="cardNumber">
             </label>
-            <label>Expiry (MM/YY):
+            <label>
+                <span th:text="#{checkoutPage.labelCardExpiry}">Expiry (MM/YY):</span>
                 <input type="text" id="cardExpiry">
             </label>
-            <label>CVV:
+            <label>
+                <span th:text="#{checkoutPage.labelCardCVV}">CVV:</span>
                 <input type="text" id="cardCVV">
             </label>
         </div>
     </div>
 
     <div id="checkout-action">
-        <button id="checkout-button">Place Order</button>
+        <button id="checkout-button" th:text="#{checkoutPage.heading.placeOrder}">
+            Place Order
+        </button>
     </div>
 
     <div id="checkout-result">
         <div id="success-message" style="display:none;">
             <h1 style="font-size:50px;">✔</h1>
-            <h2>Your order was placed successfully!</h2>
+            <h2 th:text="#{checkoutPage.heading.orderSuccess}">Your order was placed successfully!</h2>
         </div>
         <div id="error-message" style="display:none; color:red;">
-            <h2>An error occurred while placing your order.</h2>
+            <h2 th:text="#{checkoutPage.heading.orderFail}">An error occurred while placing your order.</h2>
             <div id="error-details" style="font-size:14px;"></div>
         </div>
     </div>
+
+    <script th:inline="javascript">
+            var msgSelectOrFillAddress = [[#{checkoutPage.validation.selectOrFill}]];
+            var msgFillAllAddressFields = [[#{checkoutPage.validation.fillAllAddress}]];
+            var msgFillAllPaymentFields = [[#{checkoutPage.validation.fillAllPayment}]];
+            var msgServerError = [[#{checkoutPage.error.server}]];
+    </script>
 
 </div>
 </body>

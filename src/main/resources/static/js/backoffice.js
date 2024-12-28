@@ -38,6 +38,10 @@ document.addEventListener("DOMContentLoaded", function() {
         hideForm();
     });
 
+    createProductBtn.addEventListener("click", function() {
+        showForm(null);
+    });
+
     fetchProducts();
 
     function fetchProducts() {
@@ -50,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(url)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("Failed to fetch products");
+                    throw new Error(msgFailedFetchProducts);
                 }
                 return response.json();
             })
@@ -60,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(err => {
                 console.error("Error fetching products:", err);
-                productsList.innerHTML = `<p style="color: red;">Error loading products.</p>`;
+                productsList.innerHTML = `<p style="color: red;">${msgErrorLoadingProducts}</p>`;
             });
     }
 
@@ -75,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (products.length === 0) {
-            productsList.innerHTML = "<p>No products found.</p>";
+            productsList.innerHTML = `<p>${msgNoProductsFound}</p>`;
             return;
         }
 
@@ -99,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const deleteBtn = row.querySelector(".delete-btn");
             deleteBtn.addEventListener("click", function() {
-                if (confirm("Are you sure to delete this product?")) {
+                if (confirm(msgAreYouSureDelete)) {
                     deleteProduct(product.id);
                 }
             });
@@ -120,22 +124,22 @@ document.addEventListener("DOMContentLoaded", function() {
         const totalPages = pageInfo.totalPages;
 
         const prevBtn = document.createElement("button");
-        prevBtn.textContent = "Prev";
+        prevBtn.textContent = msgButtonPrev;
         prevBtn.disabled = (current === 0);
         if (!prevBtn.disabled) {
             prevBtn.addEventListener("click", function() {
-                currentPage = currentPage - 1;
+                currentPage--;
                 fetchProducts();
             });
         }
         paginationContainer.appendChild(prevBtn);
 
         const nextBtn = document.createElement("button");
-        nextBtn.textContent = "Next";
+        nextBtn.textContent = msgButtonNext;
         nextBtn.disabled = (current >= totalPages - 1);
         if (!nextBtn.disabled) {
             nextBtn.addEventListener("click", function() {
-                currentPage = currentPage + 1;
+                currentPage++;
                 fetchProducts();
             });
         }
@@ -146,21 +150,21 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch("/api/backoffice/selectCategories")
             .then(r => r.json())
             .then(data => {
-                renderDropdown(productCategoryField, data, "Select Category");
+                renderDropdown(productCategoryField, data, msgSelectCategory);
             })
             .catch(err => console.error("Error loading categories:", err));
 
         fetch("/api/backoffice/selectBrands")
             .then(r => r.json())
             .then(data => {
-                renderDropdown(productBrandField, data, "Select Brand");
+                renderDropdown(productBrandField, data, msgSelectBrand);
             })
             .catch(err => console.error("Error loading brands:", err));
 
         fetch("/api/backoffice/selectSuppliers")
             .then(r => r.json())
             .then(data => {
-                renderDropdown(productSupplierField, data, "Select Supplier");
+                renderDropdown(productSupplierField, data, msgSelectSupplier);
             })
             .catch(err => console.error("Error loading suppliers:", err));
     }
@@ -183,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function showForm(product) {
         productForm.style.display = "block";
         if (product) {
-            formTitle.textContent = "Update Product";
+            formTitle.textContent = msgUpdateProductHeading;
             productIdField.value = product.id || "";
             productNameField.value = product.name || "";
             productPriceField.value = product.price || 0;
@@ -193,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
             productBrandField.value = product.brand ? product.brand.id : "";
             productSupplierField.value = product.supplier ? product.supplier.id : "";
         } else {
-            formTitle.textContent = "Create New Product";
+            formTitle.textContent = msgCreateNewProductHeading;
             productIdField.value = "";
             productNameField.value = "";
             productPriceField.value = 0;
@@ -228,19 +232,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 body: JSON.stringify(productDTO)
             })
             .then(response => {
-                if (!response.ok) throw new Error("Failed to update product");
+                if (!response.ok) throw new Error(msgFailedToUpdate);
                 hideForm();
                 fetchProducts();
             })
             .catch(err => console.error(err));
-        } else {
+        }
+        else {
             fetch("/api/backoffice/createProduct", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(productDTO)
             })
             .then(response => {
-                if (!response.ok) throw new Error("Failed to create product");
+                if (!response.ok) throw new Error(msgFailedToCreate);
                 hideForm();
                 fetchProducts();
             })
@@ -256,15 +261,11 @@ document.addEventListener("DOMContentLoaded", function() {
             if (response.ok) {
                 fetchProducts();
             } else if (response.status === 409) {
-                alert("Cannot delete product that has orders and baskets.");
+                alert(msgCannotDeleteDueToOrders);
             } else {
-                throw new Error("Failed to delete product");
+                throw new Error(msgFailedDeleteProduct);
             }
         })
         .catch(err => console.error(err));
     }
-
-    createProductBtn.addEventListener("click", function() {
-        showForm(null);
-    });
 });

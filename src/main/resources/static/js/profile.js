@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         loginModal.style.display = loginModal.style.display === "flex" ? "none" : "flex";
       });
     } else {
-      profileButton.textContent = "👤 Profile";
+      profileButton.textContent = "👤 " + profileIconTxt;
       profileButton.classList.add("profile-icon-button");
       profileButton.classList.remove("sign-in-button");
       userLoggedIn = true;

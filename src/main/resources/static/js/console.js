@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const infoContent = document.getElementById("infoContent");
     const flywayContent = document.getElementById("flywayContent");
     const readyTimeContent = document.getElementById("readyTimeContent");
-    const jvmInfoContent = document.getElementById("jvmInfoContent");
     const jvmMemoryUsedContent = document.getElementById("jvmMemoryUsedContent");
     const cpuUsageContent = document.getElementById("cpuUsageContent");
 
@@ -22,11 +21,12 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(err => {
                 console.error("Error fetching health:", err);
-                healthContent.textContent = "Error fetching /actuator/health";
+                healthContent.textContent = msgErrorFetchingHealth;
             });
     }
     function parseHealth(data) {
-        return `Status: ${data.status || "Unknown"}`;
+        let status = data.status || msgStatusUnknown;
+        return `Status: ${status}`;
     }
 
     function fetchInfo() {
@@ -37,17 +37,17 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(err => {
                 console.error("Error fetching info:", err);
-                infoContent.textContent = "Error fetching /actuator/info";
+                infoContent.textContent = msgErrorFetchingInfo;
             });
     }
     function parseInfo(data) {
-        if (!data.build) return "No build info";
+        if (!data.build) return msgNoBuildInfo;
         let b = data.build;
         return `Build Artifact: ${b.artifact}
-                Name: ${b.name}
-                Group: ${b.group}
-                Version: ${b.version}
-                Time: ${b.time}`;
+Name: ${b.name}
+Group: ${b.group}
+Version: ${b.version}
+Time: ${b.time}`;
     }
 
     function fetchFlyway() {
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(err => {
                 console.error("Error fetching flyway:", err);
-                flywayContent.textContent = "Error fetching /actuator/flyway";
+                flywayContent.textContent = msgErrorFetchingFlyway;
             });
     }
     function parseFlyway(data) {
@@ -79,13 +79,12 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         } catch (e) {
             console.error("Flyway parse error:", e);
-            return "Flyway parse error";
+            return msgFlywayParseError;
         }
 
         if (result.length === 0) {
-            return "No migrations found";
+            return msgNoMigrationsFound;
         }
-
         return result.join("\n");
     }
 
@@ -98,19 +97,18 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(err => {
                 console.error("Error fetching metric:", metricName, err);
-                element.textContent = `Error fetching /actuator/metrics/${metricName}`;
+                element.textContent = msgErrorFetchingMetric + metricName;
             });
     }
 
     function parseMetric(data) {
-        let name = data.name || "Unknown metric";
+        let name = data.name || msgUnknownMetric;
         let desc = data.description || "";
         let measurements = data.measurements || [];
-        let value = measurements[0] ? measurements[0].value : "N/A";
+        let value = measurements[0] ? measurements[0].value : msgMetricNa;
 
         return `Metric Name: ${name}
-                Description: ${desc}
-                Value: ${value}`;
+Description: ${desc}
+Value: ${value}`;
     }
-
 });

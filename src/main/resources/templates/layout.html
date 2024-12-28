@@ -3,9 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <title>Household Appliance Shop</title>
+    <title th:text="#{layout.title}">Household Appliance Shop</title>
+
     <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}">
     <link rel="icon" type="image/png" th:href="@{/images/favicon.ico}">
+
     <script src="/js/basket.js" th:src="@{/js/basket.js}"></script>
     <script src="/js/profile.js" th:src="@{/js/profile.js}"></script>
     <script src="/js/auth.js" th:src="@{/js/auth.js}"></script>
@@ -17,49 +19,72 @@
             <a href="?lang=en">EN</a> | <a href="?lang=ua">UA</a>
         </div>
         <div class="contact-info">
-            <span>Call us: +1234567890</span>
+            <span th:text="#{layout.contactInfo}">Call us: +1234567890</span>
         </div>
     </div>
+
     <div class="header-main">
         <div class="logo">
             <a href="/">
-                <img th:src="@{/images/logo.png}" alt="Logo">
+                <img th:src="@{/images/logo.png}" th:alt="#{layout.logoAlt}" alt="Logo">
             </a>
         </div>
+
         <div class="user-controls" style="display: flex; gap: 10px; align-items: center;">
+
             <div class="basket-container">
                 <button id="basket-button" class="basket-icon">
-                    🛒 <span id="basket-count">0</span>
+                    <span>🛒</span>
+                    <span id="basket-count">0</span>
                 </button>
+
                 <div id="basket-dropdown" class="dropdown-content">
                     <div class="basket-header">
-                        <span>Your Basket</span>
-                        <button id="close-basket" class="close-button">x</button>
+                        <span th:text="#{layout.yourBasket}">Your Basket</span>
+                        <button id="close-basket" class="close-button" th:text="#{layout.closeButton}">x</button>
                     </div>
                     <div id="basket-items" class="basket-items">
                         <!-- Basket items will be dynamically populated here -->
                     </div>
                     <div class="basket-total">
-                        <span>Total:</span> <span id="basket-total-price">$0.00</span>
+                        <span th:text="#{layout.totalLabel}">Total:</span>
+                        <span id="basket-total-price">$0.00</span>
                     </div>
                     <div class="basket-footer">
-                        <button id="start-checkout-button" class="start-checkout-button">Proceed to Checkout</button>
+                        <button id="start-checkout-button" class="start-checkout-button"
+                                th:text="#{layout.checkoutButton}">
+                            Proceed to Checkout
+                        </button>
                     </div>
                 </div>
             </div>
+
             <div class="profile-container">
-                <button id="profile-button" class="profile-icon">👤 Profile</button>
+                <button id="profile-button" class="profile-icon">
+                    <span>👤</span>
+                    <span th:text="#{layout.profileIcon}">Profile</span>
+                </button>
                 <div id="profile-dropdown" class="dropdown-content" style="display: none;">
                     <div class="profile-header">
-                        <span>Profile Options</span>
-                        <button id="close-profile-dropdown" class="close-button">x</button>
+                        <span th:text="#{layout.profileOptions}">Profile Options</span>
+                        <button id="close-profile-dropdown" class="close-button" th:text="#{layout.closeButton}">x
+                        </button>
                     </div>
-                    <a href="/profile">My Profile</a>
-                    <a href="/orders">Orders</a>
-                    <a href="/backoffice" id="backoffice-link" style="display: none;">Backoffice</a>
-                    <a href="/console" id="console-link" style="display: none;">Console</a>
-                    <a href="/settings">Settings</a>
-                    <button id="logout-button" class="logout-button">-->] Logout</button>
+                    <a href="/profile" th:text="#{layout.myProfile}">My Profile</a>
+                    <a href="/orders" th:text="#{layout.orders}">Orders</a>
+                    <a href="/backoffice" id="backoffice-link" style="display: none;"
+                       th:text="#{layout.backoffice}">
+                        Backoffice
+                    </a>
+                    <a href="/console" id="console-link" style="display: none;"
+                       th:text="#{layout.console}">
+                        Console
+                    </a>
+                    <a href="/settings" th:text="#{layout.settings}">Settings</a>
+                    <button id="logout-button" class="logout-button"
+                            th:text="#{layout.logoutButton}">
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>
@@ -68,64 +93,97 @@
 
 <div id="login-modal" class="modal">
     <div class="modal-content">
-        <span id="close-login-modal" class="close-button">&times;</span>
-        <h2>Sign In</h2>
+        <span id="close-login-modal" class="close-button" th:text="#{layout.closeButton}">&times;</span>
+        <h2 th:text="#{layout.signInTitle}">Sign In</h2>
+
         <form id="login-form" class="login-form">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            <label for="username" th:text="#{layout.usernameLabel}">Username:</label>
+            <input type="text" id="username" name="username" required
+                   th:placeholder="#{layout.usernamePlaceholder}"
+                   placeholder="Enter your username" />
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <label for="password" th:text="#{layout.passwordLabel}">Password:</label>
+            <input type="password" id="password" name="password" required
+                   th:placeholder="#{layout.passwordPlaceholder}"
+                   placeholder="Enter your password" />
 
-            <div id="login-error" class="error-message" style="color: red; display: none;">Invalid login/password</div>
+            <div id="login-error" class="error-message" style="color: red; display: none;"
+                 th:text="#{layout.invalidLoginPassword}">
+                Invalid login/password
+            </div>
 
-            <button type="submit" class="submit-button">Login</button>
+            <button type="submit" class="submit-button" th:text="#{layout.loginButton}">Login</button>
         </form>
-        <button id="register-button" class="register-button">Register</button>
+
+        <button id="register-button" class="register-button" th:text="#{layout.registerButton}">
+            Register
+        </button>
     </div>
 </div>
 
 <div id="register-modal" class="modal">
     <div class="modal-content">
-        <span id="close-register-modal" class="close-button">&times;</span>
-        <h2>Register</h2>
+        <span id="close-register-modal" class="close-button" th:text="#{layout.closeButton}">&times;</span>
+        <h2 th:text="#{layout.registerTitle}">Register</h2>
+
         <form id="register-form" class="register-form">
-            <label for="firstname">First Name:</label>
-            <input type="text" id="firstname" name="firstname" placeholder="Enter your first name" required>
+            <label for="firstname" th:text="#{layout.firstNameLabel}">First Name:</label>
+            <input type="text" id="firstname" name="firstname" required
+                   th:placeholder="#{layout.firstNamePlaceholder}"
+                   placeholder="Enter your first name" />
 
-            <label for="lastname">Last Name:</label>
-            <input type="text" id="lastname" name="lastname" placeholder="Enter your last name" required>
+            <label for="lastname" th:text="#{layout.lastNameLabel}">Last Name:</label>
+            <input type="text" id="lastname" name="lastname" required
+                   th:placeholder="#{layout.lastNamePlaceholder}"
+                   placeholder="Enter your last name" />
 
-            <label for="phone">Phone:</label>
-            <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
+            <label for="phone" th:text="#{layout.phoneLabel}">Phone:</label>
+            <input type="text" id="phone" name="phone" required
+                   th:placeholder="#{layout.phonePlaceholder}"
+                   placeholder="Enter your phone number" />
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <label for="email" th:text="#{layout.emailLabel}">Email:</label>
+            <input type="email" id="email" name="email" required
+                   th:placeholder="#{layout.emailPlaceholder}"
+                   placeholder="Enter your email" />
 
-            <label for="reg-password">Password:</label>
-            <input type="password" id="reg-password" name="password" placeholder="Enter your password" required>
+            <label for="reg-password" th:text="#{layout.passwordLabel}">Password:</label>
+            <input type="password" id="reg-password" name="password" required
+                   th:placeholder="#{layout.passwordPlaceholder}"
+                   placeholder="Enter your password" />
 
-            <div id="register-error" class="error-message" style="color: red; display: none;">Error during registration</div>
+            <div id="register-error" class="error-message" style="color: red; display: none;"
+                 th:text="#{layout.registrationError}">
+                Error during registration
+            </div>
 
-            <button type="submit" class="submit-button">Register</button>
+            <button type="submit" class="submit-button" th:text="#{layout.registerButton}">
+                Register
+            </button>
         </form>
     </div>
 </div>
 
+<script th:inline="javascript">
+    var profileIconTxt = [[#{layout.profileIcon}]];
+</script>
+
 <div class="main-content" layout:fragment="content">
-    <!-- Default content goes here, which will be replaced by specific pages -->
+    <!-- This content will be replaced by specific pages -->
 </div>
 
 <footer>
     <div class="footer-info">
-        <span>Contact us at +1234567890, 1234 Street, City</span>
+        <span th:text="#{layout.footerContact}">Contact us at +1234567890, 1234 Street, City</span>
         <div class="social-links">
-            <a href="http://facebook.com">Facebook</a> |
-            <a href="http://twitter.com">Twitter</a> |
-            <a href="http://instagram.com">Instagram</a>
+            <a href="http://facebook.com" th:text="#{layout.facebookLink}">Facebook</a> |
+            <a href="http://twitter.com" th:text="#{layout.twitterLink}">Twitter</a> |
+            <a href="http://instagram.com" th:text="#{layout.instagramLink}">Instagram</a>
         </div>
         <div class="copyright">
-            &copy; 2024 Household Appliance Shop. All rights reserved.
+            &copy; 2024
+            <span th:text="#{layout.companyName}">Household Appliance Shop</span>.
+            <span th:text="#{layout.allRightsReserved}">All rights reserved.</span>
         </div>
     </div>
 </footer>

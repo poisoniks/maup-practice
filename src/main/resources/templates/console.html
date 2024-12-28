@@ -3,44 +3,60 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Admin Console</title>
+    <title th:text="#{consolePage.title}">Admin Console</title>
     <link rel="stylesheet" th:href="@{/css/console.css}">
     <script th:src="@{/js/console.js}"></script>
 </head>
 <body>
 <div layout:fragment="content" class="admin-console-container">
 
-    <h1>Admin Console</h1>
+    <h1 th:text="#{consolePage.title}">Admin Console</h1>
 
     <div class="console-block">
-        <h2>Health</h2>
+        <h2 th:text="#{consolePage.heading.health}">Health</h2>
         <pre id="healthContent"></pre>
     </div>
 
     <div class="console-block">
-        <h2>Info</h2>
+        <h2 th:text="#{consolePage.heading.info}">Info</h2>
         <pre id="infoContent"></pre>
     </div>
 
     <div class="console-block">
-        <h2>Flyway Migrations</h2>
+        <h2 th:text="#{consolePage.heading.flyway}">Flyway Migrations</h2>
         <pre id="flywayContent"></pre>
     </div>
 
     <div class="console-block">
-        <h2>Application Ready Time</h2>
+        <h2 th:text="#{consolePage.heading.appReadyTime}">Application Ready Time</h2>
         <pre id="readyTimeContent"></pre>
     </div>
 
     <div class="console-block">
-        <h2>JVM Memory Used</h2>
+        <h2 th:text="#{consolePage.heading.jvmMemoryUsed}">JVM Memory Used</h2>
         <pre id="jvmMemoryUsedContent"></pre>
     </div>
 
     <div class="console-block">
-        <h2>System CPU Usage</h2>
+        <h2 th:text="#{consolePage.heading.systemCpuUsage}">System CPU Usage</h2>
         <pre id="cpuUsageContent"></pre>
     </div>
+
+    <script th:inline="javascript">
+          var msgErrorFetchingHealth = [[#{consolePage.errorFetchingHealth}]];
+          var msgErrorFetchingInfo = [[#{consolePage.errorFetchingInfo}]];
+          var msgErrorFetchingFlyway = [[#{consolePage.errorFetchingFlyway}]];
+          var msgErrorFetchingMetric = [[#{consolePage.errorFetchingMetric}]];
+
+          var msgFlywayParseError = [[#{consolePage.flywayParseError}]];
+          var msgNoMigrationsFound = [[#{consolePage.noMigrationsFound}]];
+
+          var msgStatusUnknown = [[#{consolePage.statusUnknown}]];
+          var msgNoBuildInfo = [[#{consolePage.noBuildInfo}]];
+
+          var msgUnknownMetric = [[#{consolePage.unknownMetric}]];
+          var msgMetricNa = [[#{consolePage.metricNa}]];
+    </script>
 
 </div>
 </body>

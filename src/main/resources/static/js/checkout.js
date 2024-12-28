@@ -18,7 +18,6 @@ $(document).ready(function() {
     const $errorDetails = $("#error-details");
 
     fetchBasketData();
-
     fetchAddresses();
 
     $checkoutButton.on("click", async function() {
@@ -46,11 +45,10 @@ $(document).ready(function() {
                 $newState.val("");
                 $newCountry.val("");
             } else if (!addressId && !isNewAddressEntered()) {
-                throw new Error("Select an existing address or fill in new address fields.");
+                throw new Error(msgSelectOrFillAddress);
             }
 
             await placeOrder(addressId);
-
             $successMessage.show();
 
             setTimeout(() => {
@@ -59,7 +57,7 @@ $(document).ready(function() {
 
         } catch (err) {
             console.error("Error during checkout:", err);
-            showError("A server error occurred.");
+            showError(msgServerError);
         }
     });
 
@@ -119,9 +117,7 @@ $(document).ready(function() {
 
         const response = await fetch("/api/address/add", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(addressDTO)
         });
         if (!response.ok) {
@@ -149,24 +145,28 @@ $(document).ready(function() {
 
     function validateFields() {
         const chosenAddress = $addressSelect.val();
-        const addressFieldsFilled = ($newStreet.val().trim() !== "" &&
-                                     $newCity.val().trim() !== "" &&
-                                     $newState.val().trim() !== "" &&
-                                     $newCountry.val().trim() !== "");
+        const addressFieldsFilled = (
+            $newStreet.val().trim() !== "" &&
+            $newCity.val().trim() !== "" &&
+            $newState.val().trim() !== "" &&
+            $newCountry.val().trim() !== ""
+        );
 
         if (chosenAddress === "none" && !addressFieldsFilled) {
-            return "Please select an existing address or fill in all new address fields.";
+            return msgSelectOrFillAddress;
         }
 
         if (isNewAddressEntered() && !addressFieldsFilled) {
-            return "Please fill in all address fields or clear them if you want to use an existing address.";
+            return msgFillAllAddressFields;
         }
 
-        if ($cardHolder.val().trim() === "" ||
+        if (
+            $cardHolder.val().trim() === "" ||
             $cardNumber.val().trim() === "" ||
             $cardExpiry.val().trim() === "" ||
-            $cardCVV.val().trim() === "") {
-            return "Please fill in all payment fields.";
+            $cardCVV.val().trim() === ""
+        ) {
+            return msgFillAllPaymentFields;
         }
 
         return null;

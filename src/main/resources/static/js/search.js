@@ -68,20 +68,17 @@ $(document).ready(function() {
     }
 
     function buildQueryParams(page) {
-        const selectedBrandIds = $filtersBrand
-            .filter(':checked')
-            .map(function() { return $(this).val(); })
-            .get();
+        const selectedBrandIds = $filtersBrand.filter(':checked').map(function() {
+            return $(this).val();
+        }).get();
 
-        const selectedSupplierIds = $filtersSupplier
-            .filter(':checked')
-            .map(function() { return $(this).val(); })
-            .get();
+        const selectedSupplierIds = $filtersSupplier.filter(':checked').map(function() {
+            return $(this).val();
+        }).get();
 
-        const selectedCategoryIds = $filtersCategory
-            .filter(':checked')
-            .map(function() { return $(this).val(); })
-            .get();
+        const selectedCategoryIds = $filtersCategory.filter(':checked').map(function() {
+            return $(this).val();
+        }).get();
 
         const minPriceVal = $minPrice.val() || '';
         const maxPriceVal = $maxPrice.val() || '';
@@ -124,8 +121,6 @@ $(document).ready(function() {
 
                 if (data._embedded && data._embedded.productDTOList) {
                     products = data._embedded.productDTOList;
-                } else {
-
                 }
 
                 renderProducts(products);
@@ -137,9 +132,7 @@ $(document).ready(function() {
             .catch(err => {
                 hideSpinner();
                 console.error('Error fetching products:', err);
-                $resultsContainer.html(
-                  '<p style="color:red;">Error loading products.</p>'
-                );
+                $resultsContainer.html(`<p style="color:red;">${msgErrorLoadingProducts}</p>`);
             });
     }
 
@@ -147,26 +140,21 @@ $(document).ready(function() {
         const $grid = $('<div>').addClass('products-grid');
 
         products.forEach(productDTO => {
-            const id = productDTO.id;
-            const name = productDTO.name;
-            const price = productDTO.price;
+            const { id, name, price } = productDTO;
 
             const $card = $('<div>').addClass('product-card');
-
             const $img = $('<img>')
                 .attr('src', '/images/product-default.jpg')
                 .attr('alt', name);
-
             const $productName = $('<div>')
                 .addClass('product-name')
                 .text(name);
-
             const $productPrice = $('<div>')
                 .addClass('product-price')
                 .text(`$${price}`);
 
-            $card.on('click', function() {
-                window.location.href = '/product/' + id;
+            $card.on('click', () => {
+                window.location.href = `/product/${id}`;
             });
 
             $card.append($img, $productName, $productPrice);
@@ -180,9 +168,9 @@ $(document).ready(function() {
         if (current > 0) {
             const $prev = $('<span>')
                 .addClass('page-link')
-                .text('Prev')
+                .text(msgPrev)
                 .on('click', () => {
-                    currentPage = currentPage - 1;
+                    currentPage--;
                     fetchProducts(currentPage);
                 });
             $paginationContainer.append($prev);
@@ -205,9 +193,9 @@ $(document).ready(function() {
         if (current < totalPages - 1) {
             const $next = $('<span>')
                 .addClass('page-link')
-                .text('Next')
+                .text(msgNext)
                 .on('click', () => {
-                    currentPage = currentPage + 1;
+                    currentPage++;
                     fetchProducts(currentPage);
                 });
             $paginationContainer.append($next);
