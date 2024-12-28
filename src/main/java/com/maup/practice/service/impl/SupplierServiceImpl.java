@@ -18,4 +18,9 @@ public class SupplierServiceImpl implements SupplierService {
     public List<SupplierModel> findAllSuppliers() {
         return supplierRepository.findAll();
     }
+
+    @Override
+    public SupplierModel findSupplierById(Long id) {
+        return supplierRepository.findById(id).orElseThrow(() -> new RuntimeException("Supplier not found"));
+    }
 }

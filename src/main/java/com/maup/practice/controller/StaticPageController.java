@@ -66,4 +66,14 @@ public class StaticPageController {
     public String orders() {
         return "orders";
     }
+
+    @GetMapping("/backoffice")
+    public String backoffice() {
+        return "backoffice";
+    }
+
+    @GetMapping("/console")
+    public String console() {
+        return "console";
+    }
 }

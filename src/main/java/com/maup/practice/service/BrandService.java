@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface BrandService {
     List<BrandModel> findAllBrands();
+    BrandModel findBrandById(Long id);
 }
