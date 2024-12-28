@@ -15,14 +15,16 @@ import java.util.stream.Collectors;
 @Service
 public class AddressFacadeImpl implements AddressFacade {
 
-    @Autowired
-    private AddressService addressService;
+    private final AddressService addressService;
+    private final UserService userService;
+    private final Converter<AddressModel, AddressDTO> addressConverter;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private Converter<AddressModel, AddressDTO> addressConverter;
+    public AddressFacadeImpl(AddressService addressService, UserService userService, Converter<AddressModel, AddressDTO> addressConverter) {
+        this.addressService = addressService;
+        this.userService = userService;
+        this.addressConverter = addressConverter;
+    }
 
     @Override
     public void addAddress(AddressDTO addressDTO) {

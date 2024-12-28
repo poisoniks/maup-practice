@@ -1,5 +1,7 @@
 package com.maup.practice.dto;
 
+import java.util.Objects;
+
 public class AddressDTO {
     private Long id;
     private String street;
@@ -45,5 +47,18 @@ public class AddressDTO {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        AddressDTO that = (AddressDTO) o;
+        return Objects.equals(id, that.id) && Objects.equals(street, that.street) && Objects.equals(city, that.city)
+                && Objects.equals(state, that.state) && Objects.equals(country, that.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, street, city, state, country);
     }
 }

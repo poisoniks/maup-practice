@@ -16,14 +16,16 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final BasketItemRepository basketItemRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Autowired
-    private BasketItemRepository basketItemRepository;
-
-    @Autowired
-    private OrderItemRepository orderItemRepository;
+    public ProductServiceImpl(ProductRepository productRepository, BasketItemRepository basketItemRepository, OrderItemRepository orderItemRepository) {
+        this.productRepository = productRepository;
+        this.basketItemRepository = basketItemRepository;
+        this.orderItemRepository = orderItemRepository;
+    }
 
     @Override
     public Page<ProductModel> findProductsByFilters(BigDecimal minPrice, BigDecimal maxPrice, List<Long> brandIds, List<Long> supplierIds,
@@ -42,18 +44,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductModel> getAllProducts() {
-        return productRepository.findAll();
-    }
-
-    @Override
     public ProductModel getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public ProductModel getProductByName(String name) {
-        return productRepository.findByName(name);
     }
 
     @Override

@@ -18,8 +18,12 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductController {
 
+    private final ProductFacade productFacade;
+
     @Autowired
-    private ProductFacade productFacade;
+    public ProductController(ProductFacade productFacade) {
+        this.productFacade = productFacade;
+    }
 
     @GetMapping("/search")
     public ResponseEntity<PagedModel<EntityModel<ProductDTO>>> searchProducts(

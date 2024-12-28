@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 public class CategoryModelToDTOConverter implements Converter<CategoryModel, CategoryDTO> {
 
     @Override
-    public CategoryDTO convert(CategoryModel categoryModel) {
-        if (categoryModel == null) {
+    public CategoryDTO convert(CategoryModel source) {
+        if (source == null) {
             return null;
         }
 
         CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setId(categoryModel.getId());
-        categoryDTO.setName(categoryModel.getName());
+        categoryDTO.setId(source.getId());
+        categoryDTO.setName(source.getName());
         return categoryDTO;
     }
 }

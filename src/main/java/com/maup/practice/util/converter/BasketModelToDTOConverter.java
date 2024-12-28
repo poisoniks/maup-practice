@@ -14,8 +14,12 @@ import java.util.stream.Collectors;
 @Component
 public class BasketModelToDTOConverter implements Converter<BasketModel, BasketDTO> {
 
+    private final Converter<BasketItemModel, BasketItemDTO> basketItemConverter;
+
     @Autowired
-    private Converter<BasketItemModel, BasketItemDTO> basketItemConverter;
+    public BasketModelToDTOConverter(Converter<BasketItemModel, BasketItemDTO> basketItemConverter) {
+        this.basketItemConverter = basketItemConverter;
+    }
 
     @Override
     public BasketDTO convert(BasketModel source) {
@@ -31,7 +35,7 @@ public class BasketModelToDTOConverter implements Converter<BasketModel, BasketD
 
     private Set<BasketItemDTO> convertItems(Set<BasketItemModel> items) {
         return items.stream()
-                .map(item -> basketItemConverter.convert(item))
+                .map(basketItemConverter::convert)
                 .collect(Collectors.toSet());
     }
 }

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 public class SupplierModelToDTOConverter implements Converter<SupplierModel, SupplierDTO> {
 
     @Override
-    public SupplierDTO convert(SupplierModel supplierModel) {
-        if (supplierModel == null) {
+    public SupplierDTO convert(SupplierModel source) {
+        if (source == null) {
             return null;
         }
 
         SupplierDTO supplierDTO = new SupplierDTO();
-        supplierDTO.setId(supplierModel.getId());
-        supplierDTO.setName(supplierModel.getName());
-        supplierDTO.setAddress(supplierModel.getAddress());
-        supplierDTO.setContactInfo(supplierModel.getContactInfo());
+        supplierDTO.setId(source.getId());
+        supplierDTO.setName(source.getName());
+        supplierDTO.setAddress(source.getAddress());
+        supplierDTO.setContactInfo(source.getContactInfo());
         return supplierDTO;
     }
 }

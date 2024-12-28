@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 public class BrandModelToDTOConverter implements Converter<BrandModel, BrandDTO> {
 
     @Override
-    public BrandDTO convert(BrandModel brandModel) {
-        if (brandModel == null) {
+    public BrandDTO convert(BrandModel source) {
+        if (source == null) {
             return null;
         }
 
         BrandDTO brandDTO = new BrandDTO();
-        brandDTO.setId(brandModel.getId());
-        brandDTO.setName(brandModel.getName());
+        brandDTO.setId(source.getId());
+        brandDTO.setName(source.getName());
         return brandDTO;
     }
 }

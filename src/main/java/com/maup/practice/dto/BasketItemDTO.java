@@ -1,5 +1,7 @@
 package com.maup.practice.dto;
 
+import java.util.Objects;
+
 public class BasketItemDTO {
     private Long id;
     private ProductDTO product;
@@ -29,4 +31,15 @@ public class BasketItemDTO {
         this.quantity = quantity;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        BasketItemDTO that = (BasketItemDTO) o;
+        return quantity == that.quantity && Objects.equals(id, that.id) && Objects.equals(product, that.product);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, product, quantity);
+    }
 }

@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserFacadeImpl implements UserFacade {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final Converter<UserModel, UserProfileDTO> userConverter;
 
     @Autowired
-    private Converter<UserModel, UserProfileDTO> userConverter;
+    public UserFacadeImpl(UserService userService, Converter<UserModel, UserProfileDTO> userConverter) {
+        this.userService = userService;
+        this.userConverter = userConverter;
+    }
 
     @Override
     public UserProfileDTO getUserProfile() {

@@ -21,17 +21,23 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import static com.maup.practice.util.Constants.JWT_COOKIE;
+
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private static final String BEARER_TOKEN_PREFIX = "Bearer ";
+
+    private final UserDetailsService userDetailsService;
+    private final ObjectMapper objectMapper;
+    private final JWTService jwtService;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private JWTService jwtService;
+    public JwtAuthFilter(UserDetailsService userDetailsService, ObjectMapper objectMapper, JWTService jwtService) {
+        this.userDetailsService = userDetailsService;
+        this.objectMapper = objectMapper;
+        this.jwtService = jwtService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -63,13 +69,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private String extractJwtToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+        if (bearerToken != null && bearerToken.startsWith(BEARER_TOKEN_PREFIX)) {
             return bearerToken.substring(7);
         }
 
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
-                if ("JWT".equals(cookie.getName())) {
+                if (JWT_COOKIE.equals(cookie.getName())) {
                     return cookie.getValue();
                 }
             }

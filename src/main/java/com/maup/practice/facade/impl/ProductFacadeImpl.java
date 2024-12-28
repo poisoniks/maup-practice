@@ -25,29 +25,29 @@ import java.util.List;
 @Service
 public class ProductFacadeImpl implements ProductFacade {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+    private final CategoryService categoryService;
+    private final BrandService brandService;
+    private final SupplierService supplierService;
+    private final Converter<ProductModel, ProductDTO> productModelConverter;
+    private final Converter<CategoryModel, CategoryDTO> categoryModelConverter;
+    private final Converter<BrandModel, BrandDTO> brandModelConverter;
+    private final Converter<SupplierModel, SupplierDTO> supplierModelConverter;
 
     @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private BrandService brandService;
-
-    @Autowired
-    private SupplierService supplierService;
-
-    @Autowired
-    private Converter<ProductModel, ProductDTO> productModelConverter;
-
-    @Autowired
-    private Converter<CategoryModel, CategoryDTO> categoryModelConverter;
-
-    @Autowired
-    private Converter<BrandModel, BrandDTO> brandModelConverter;
-
-    @Autowired
-    private Converter<SupplierModel, SupplierDTO> supplierModelConverter;
+    public ProductFacadeImpl(ProductService productService, CategoryService categoryService, BrandService brandService,
+                             SupplierService supplierService, Converter<ProductModel, ProductDTO> productModelConverter,
+                             Converter<CategoryModel, CategoryDTO> categoryModelConverter, Converter<BrandModel, BrandDTO> brandModelConverter,
+                             Converter<SupplierModel, SupplierDTO> supplierModelConverter) {
+        this.productService = productService;
+        this.categoryService = categoryService;
+        this.brandService = brandService;
+        this.supplierService = supplierService;
+        this.productModelConverter = productModelConverter;
+        this.categoryModelConverter = categoryModelConverter;
+        this.brandModelConverter = brandModelConverter;
+        this.supplierModelConverter = supplierModelConverter;
+    }
 
     @Override
     public Page<ProductDTO> findProductsByFilters(BigDecimal minPrice, BigDecimal maxPrice, List<Long> brandIds, List<Long> supplierIds,

@@ -1,5 +1,7 @@
 package com.maup.practice.dto;
 
+import java.util.Objects;
+
 public class ProductDTO {
 
     private Long id;
@@ -74,5 +76,19 @@ public class ProductDTO {
 
     public void setBrand(BrandDTO brand) {
         this.brand = brand;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductDTO that = (ProductDTO) o;
+        return Double.compare(price, that.price) == 0 && stockQuantity == that.stockQuantity && Objects.equals(id, that.id)
+                && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(category, that.category)
+                && Objects.equals(supplier, that.supplier) && Objects.equals(brand, that.brand);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, price, stockQuantity, category, supplier, brand);
     }
 }

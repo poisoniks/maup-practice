@@ -15,27 +15,31 @@ import java.util.stream.Collectors;
 @Component
 public class OrderModelToDetailsDTOConverter implements Converter<OrderModel, OrderDetailsDTO> {
 
+    private final Converter<OrderItemModel, OrderItemDTO> orderItemModelToDTOConverter;
+
     @Autowired
-    private Converter<OrderItemModel, OrderItemDTO> orderItemModelToDTOConverter;
+    public OrderModelToDetailsDTOConverter(Converter<OrderItemModel, OrderItemDTO> orderItemModelToDTOConverter) {
+        this.orderItemModelToDTOConverter = orderItemModelToDTOConverter;
+    }
 
     @Override
-    public OrderDetailsDTO convert(OrderModel orderModel) {
-        if (orderModel == null) {
+    public OrderDetailsDTO convert(OrderModel source) {
+        if (source == null) {
             return null;
         }
 
-        PaymentModel paymentModel = orderModel.getPayment();
+        PaymentModel paymentModel = source.getPayment();
 
         OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
-        orderDetailsDTO.setId(orderModel.getId());
-        orderDetailsDTO.setOrderDate(orderModel.getOrderDate());
-        orderDetailsDTO.setTotal(orderModel.getTotal().doubleValue());
+        orderDetailsDTO.setId(source.getId());
+        orderDetailsDTO.setOrderDate(source.getOrderDate());
+        orderDetailsDTO.setTotal(source.getTotal().doubleValue());
         if (paymentModel != null) {
             orderDetailsDTO.setPaymentMethod(paymentModel.getPaymentMethod());
         }
-        orderDetailsDTO.setStatus(orderModel.getStatus());
-        orderDetailsDTO.setAddress(mergeAddress(orderModel.getAddress()));
-        orderDetailsDTO.setOrderItems(orderModel.getOrderItems().stream()
+        orderDetailsDTO.setStatus(source.getStatus());
+        orderDetailsDTO.setAddress(mergeAddress(source.getAddress()));
+        orderDetailsDTO.setOrderItems(source.getOrderItems().stream()
                 .map(orderItemModelToDTOConverter::convert)
                 .collect(Collectors.toList()));
         return orderDetailsDTO;

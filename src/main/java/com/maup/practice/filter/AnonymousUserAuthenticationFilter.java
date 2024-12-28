@@ -20,14 +20,16 @@ import java.io.IOException;
 @Component
 public class AnonymousUserAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private AuthenticationFacade authenticationFacade;
+    private final AuthenticationFacade authenticationFacade;
+    private final JWTService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    private JWTService jwtService;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
+    public AnonymousUserAuthenticationFilter(AuthenticationFacade authenticationFacade, JWTService jwtService, UserDetailsService userDetailsService) {
+        this.authenticationFacade = authenticationFacade;
+        this.jwtService = jwtService;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

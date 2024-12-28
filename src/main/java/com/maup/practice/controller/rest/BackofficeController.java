@@ -21,8 +21,12 @@ import java.util.List;
 @RequestMapping("/api/backoffice")
 public class BackofficeController {
 
+    private final ProductFacade productFacade;
+
     @Autowired
-    private ProductFacade productFacade;
+    public BackofficeController(ProductFacade productFacade) {
+        this.productFacade = productFacade;
+    }
 
     @GetMapping("/selectProducts")
     public ResponseEntity<PagedModel<EntityModel<ProductDTO>>> selectProducts(
