@@ -3,7 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Product Page - Household Appliance Shop</title>
+    <title th:text="#{productPage.title}">Product Page - Household Appliance Shop</title>
+
     <link rel="stylesheet" th:href="@{/css/product-page.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script th:src="@{/js/product-page.js}"></script>
@@ -20,47 +21,78 @@
         <div class="product-info">
             <input type="hidden" id="productId" th:value="${product.id}"/>
 
-            <h1 class="product-name" th:text="${product.name}">Product Name</h1>
+            <h1 class="product-name"
+                th:text="${product.name} ?: #{productPage.name.default}">
+                Product Name
+            </h1>
 
             <div class="product-meta">
-                <span>Category: <span th:text="${product.category.name}">CategoryName</span></span><br/>
-                <span>Brand: <span th:text="${product.brand.name}">BrandName</span></span>
+                <span>
+                    <span th:text="#{productPage.label.category}">Category:</span>
+                    <span th:text="${product.category.name}">CategoryName</span>
+                </span>
+                <br/>
+                <span>
+                    <span th:text="#{productPage.label.brand}">Brand:</span>
+                    <span th:text="${product.brand.name}">BrandName</span>
+                </span>
             </div>
 
             <div class="product-stock-price">
                 <div>
-                    Stock: <span id="stockQuantity" th:text="${product.stockQuantity}">10</span>
+                    <span th:text="#{productPage.label.stock}">Stock:</span>
+                    <span id="stockQuantity" th:text="${product.stockQuantity}">10</span>
                 </div>
                 <div>
-                    Price: $<span id="productPrice" th:text="${product.price}">100</span>
+                    <span th:text="#{productPage.label.price}">Price:</span>
+                    $<span id="productPrice" th:text="${product.price}">100</span>
                 </div>
             </div>
 
             <div class="product-purchase">
-                <label for="quantity">Quantity:</label>
+                <label th:for="quantity" th:text="#{productPage.label.quantity}">Quantity:</label>
                 <div class="quantity-controls">
                     <button id="minus-button">-</button>
                     <input type="number" id="quantity" value="1" min="1">
                     <button id="plus-button">+</button>
                 </div>
-                <button id="add-to-cart-button" class="add-to-cart">Add to cart</button>
+
+                <button id="add-to-cart-button" class="add-to-cart"
+                        th:text="#{productPage.button.addToCart}">
+                    Add to cart
+                </button>
             </div>
         </div>
     </div>
 
     <div class="product-description">
-        <h2>Description</h2>
-        <p th:text="${product.description}">Product description goes here...</p>
+        <h2 th:text="#{productPage.label.description}">Description</h2>
+        <p th:text="${product.description} ?: #{productPage.description.default}">
+            Product description goes here...
+        </p>
     </div>
 
     <div class="supplier-info">
-        <h2>Supplier</h2>
+        <h2 th:text="#{productPage.label.supplier}">Supplier</h2>
         <p>
-            <strong th:text="${product.supplier.name}">Supplier Name</strong><br>
-            <span th:text="${product.supplier.address}">Address</span><br>
-            <span th:text="${product.supplier.contactInfo}">Contact info</span>
+            <strong th:text="${product.supplier.name} ?: #{productPage.supplier.defaultName}">
+                Supplier Name
+            </strong>
+            <br/>
+            <span th:text="${product.supplier.address} ?: #{productPage.supplier.defaultAddress}">
+                Address
+            </span>
+            <br/>
+            <span th:text="${product.supplier.contactInfo} ?: #{productPage.supplier.defaultContact}">
+                Contact info
+            </span>
         </p>
     </div>
+
+    <script th:inline="javascript">
+        var msgProductAddedToCart = [[#{productPage.message.addedToCart}]];
+        var msgProductFailedToAdd = [[#{productPage.message.failedToAdd}]];
+    </script>
 
 </div>
 </body>

@@ -37,15 +37,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const result = await window.addProductToBasket(productId, quantityToAdd);
       if (result.success) {
-        showPopupMessage(
-          `Product "${$productName.text()}" (${quantityToAdd}) added to cart!`,
-          "success"
-        );
+        let message = msgProductAddedToCart
+          .replace("{0}", $productName.text())
+          .replace("{1}", quantityToAdd);
+        showPopupMessage(message, "success");
       } else {
-        showPopupMessage(
-          `Failed to add "${$productName.text()}" to cart.`,
-          "error"
-        );
+        let message = msgProductFailedToAdd
+          .replace("{0}", $productName.text());
+        showPopupMessage(message, "error");
       }
     })();
   });

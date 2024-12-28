@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Profile - Household Appliance Shop</title>
+    <title th:text="#{profile.title}">Profile - Household Appliance Shop</title>
     <link rel="stylesheet" th:href="@{/css/profile.css}">
 </head>
 <body>
@@ -11,31 +11,31 @@
 
     <div class="user-profile-container">
         <h1 th:if="${profile.isAdmin or profile.isManager}">
-            You have
-            <span th:text="${profile.isAdmin ? 'Administrator' : 'Manager'}"></span>
-            privileges
+            <span th:text="#{profile.youHave}">You have</span>
+            <span th:text="${profile.isAdmin} ? #{profile.administrator} : #{profile.manager}">Administrator</span>
+            <span th:text="#{profile.privileges}">privileges</span>
         </h1>
 
         <div class="profile-info">
-            <h2>Your Profile</h2>
+            <h2 th:text="#{profile.yourProfile}">Your Profile</h2>
 
             <div class="profile-field">
-                <label>First Name:</label>
+                <label th:text="#{profile.label.firstName}">First Name:</label>
                 <span th:text="${profile.firstName}">John</span>
             </div>
 
             <div class="profile-field">
-                <label>Last Name:</label>
+                <label th:text="#{profile.label.lastName}">Last Name:</label>
                 <span th:text="${profile.lastName}">Doe</span>
             </div>
 
             <div class="profile-field">
-                <label>Email:</label>
+                <label th:text="#{profile.label.email}">Email:</label>
                 <span th:text="${profile.email}">john.doe@example.com</span>
             </div>
 
             <div class="profile-field">
-                <label>Phone:</label>
+                <label th:text="#{profile.label.phone}">Phone:</label>
                 <span th:text="${profile.phone}">+1234567890</span>
             </div>
         </div>

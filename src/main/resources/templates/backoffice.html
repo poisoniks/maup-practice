@@ -3,70 +3,113 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Backoffice</title>
+    <title th:text="#{backofficePage.title}">Backoffice</title>
+
     <link rel="stylesheet" th:href="@{/css/backoffice.css}">
     <script th:src="@{/js/backoffice.js}"></script>
 </head>
 <body>
 <div layout:fragment="content" class="backoffice-container">
 
-    <h1>Backoffice - Product Management</h1>
+    <h1 th:text="#{backofficePage.productManagementHeading}">
+        Backoffice - Product Management
+    </h1>
 
     <div class="search-bar">
-        <label for="searchName">Search by Name:</label>
-        <input type="text" id="searchName" placeholder="Product name...">
-        <button id="searchBtn">Search</button>
+        <label th:for="searchName" th:text="#{backofficePage.searchByName}">Search by Name:</label>
+        <input type="text" id="searchName"
+               th:placeholder="#{backofficePage.placeholderProductName}"
+               placeholder="Product name...">
 
-        <button id="createProductBtn" style="margin-left: 20px;">+ Add New Product</button>
+        <button id="searchBtn" th:text="#{backofficePage.button.search}">Search</button>
+
+        <button id="createProductBtn" style="margin-left: 20px;"
+                th:text="#{backofficePage.button.addNewProduct}">
+            + Add New Product
+        </button>
     </div>
 
     <div class="products-list" id="products-list"></div>
     <div class="pagination" id="products-pagination"></div>
 
     <div class="product-form" id="product-form" style="display:none;">
-        <h2 id="form-title">Create / Update Product</h2>
+        <h2 id="form-title" th:text="#{backofficePage.createOrUpdateHeading}">
+            Create / Update Product
+        </h2>
         <input type="hidden" id="productId">
 
         <div>
-            <label>Name:</label>
-            <input type="text" id="productName">
+            <label>
+                <span th:text="#{backofficePage.labelName}">Name:</span>
+                <input type="text" id="productName">
+            </label>
         </div>
 
         <div>
-            <label>Price:</label>
-            <input type="number" id="productPrice" step="0.01">
+            <label>
+                <span th:text="#{backofficePage.labelPrice}">Price:</span>
+                <input type="number" id="productPrice" step="0.01">
+            </label>
         </div>
 
         <div>
-            <label>Stock Quantity:</label>
-            <input type="number" id="productStock">
+            <label>
+                <span th:text="#{backofficePage.labelStock}">Stock Quantity:</span>
+                <input type="number" id="productStock">
+            </label>
         </div>
 
         <div>
-            <label>Category:</label>
-            <select id="productCategory"></select>
+            <label>
+                <span th:text="#{backofficePage.labelCategory}">Category:</span>
+                <select id="productCategory"></select>
+            </label>
         </div>
 
         <div>
-            <label>Brand:</label>
-            <select id="productBrand"></select>
+            <label>
+                <span th:text="#{backofficePage.labelBrand}">Brand:</span>
+                <select id="productBrand"></select>
+            </label>
         </div>
 
         <div>
-            <label>Supplier:</label>
-            <select id="productSupplier"></select>
+            <label>
+                <span th:text="#{backofficePage.labelSupplier}">Supplier:</span>
+                <select id="productSupplier"></select>
+            </label>
         </div>
 
         <div>
-            <label>Description:</label><br>
-            <textarea id="productDescription" rows="3" cols="50"></textarea>
+            <label>
+                <span th:text="#{backofficePage.labelDescription}">Description:</span><br>
+                <textarea id="productDescription" rows="3" cols="50"></textarea>
+            </label>
         </div>
 
         <div>
-            <button id="saveProductBtn">Save</button>
-            <button id="cancelFormBtn">Cancel</button>
+            <button id="saveProductBtn" th:text="#{backofficePage.button.save}">Save</button>
+            <button id="cancelFormBtn" th:text="#{backofficePage.button.cancel}">Cancel</button>
         </div>
     </div>
+
+    <script th:inline="javascript">
+          var msgNoProductsFound = [[#{backofficePage.noProductsFound}]];
+          var msgErrorLoadingProducts = [[#{backofficePage.errorLoadingProducts}]];
+          var msgFailedFetchProducts = [[#{backofficePage.failedFetchProducts}]];
+          var msgAreYouSureDelete = [[#{backofficePage.areYouSureDelete}]];
+          var msgCannotDeleteDueToOrders = [[#{backofficePage.cannotDeleteDueToOrders}]];
+          var msgFailedDeleteProduct = [[#{backofficePage.failedDeleteProduct}]];
+          var msgSelectCategory = [[#{backofficePage.selectCategory}]];
+          var msgSelectBrand = [[#{backofficePage.selectBrand}]];
+          var msgSelectSupplier = [[#{backofficePage.selectSupplier}]];
+          var msgCreateNewProductHeading = [[#{backofficePage.createNewProductHeading}]];
+          var msgUpdateProductHeading = [[#{backofficePage.updateProductHeading}]];
+          var msgFailedToCreate = [[#{backofficePage.failedToCreate}]];
+          var msgFailedToUpdate = [[#{backofficePage.failedToUpdate}]];
+          var msgButtonPrev = [[#{backofficePage.button.prev}]];
+          var msgButtonNext = [[#{backofficePage.button.next}]];
+    </script>
 
 </div>
 </body>

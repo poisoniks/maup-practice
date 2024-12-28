@@ -3,19 +3,23 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Product Search - Household Appliance Shop</title>
+    <title th:text="#{searchPage.title}">Product Search - Household Appliance Shop</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script th:src="@{/js/search.js}"></script>
 </head>
 <body>
 <div layout:fragment="content">
+
     <div class="search-container">
 
         <div class="filters">
 
             <section class="price-filter">
-                <h2><strong>Price</strong></h2>
+                <h2>
+                    <strong th:text="#{searchPage.heading.price}">Price</strong>
+                </h2>
                 <div class="multi-range-slider">
                     <div class="slider-track"></div>
                     <input type="range" id="minPrice" class="slider" min="0" max="5000" value="0">
@@ -28,26 +32,32 @@
             </section>
 
             <section class="category-filter">
-                <h2><strong>Categories</strong></h2>
+                <h2>
+                    <strong th:text="#{searchPage.heading.categories}">Categories</strong>
+                </h2>
                 <div th:each="category : ${categories}">
                     <input type="checkbox" th:id="${'cat-' + category.id}" th:value="${category.id}">
-                    <label th:for="${'cat-' + category.id}" th:text="${category.name}"></label>
+                    <label th:for="${'cat-' + category.id}" th:text="${category.name}">Category Name</label>
                 </div>
             </section>
 
             <section class="brand-filter">
-                <h2><strong>Brands</strong></h2>
+                <h2>
+                    <strong th:text="#{searchPage.heading.brands}">Brands</strong>
+                </h2>
                 <div th:each="brand : ${brands}">
                     <input type="checkbox" th:id="${'brand-' + brand.id}" th:value="${brand.id}">
-                    <label th:for="${'brand-' + brand.id}" th:text="${brand.name}"></label>
+                    <label th:for="${'brand-' + brand.id}" th:text="${brand.name}">Brand Name</label>
                 </div>
             </section>
 
             <section class="supplier-filter">
-                <h2><strong>Suppliers</strong></h2>
+                <h2>
+                    <strong th:text="#{searchPage.heading.suppliers}">Suppliers</strong>
+                </h2>
                 <div th:each="supplier : ${suppliers}">
                     <input type="checkbox" th:id="${'sup-' + supplier.id}" th:value="${supplier.id}">
-                    <label th:for="${'sup-' + supplier.id}" th:text="${supplier.name}"></label>
+                    <label th:for="${'sup-' + supplier.id}" th:text="${supplier.name}">Supplier Name</label>
                 </div>
             </section>
         </div>
@@ -55,9 +65,12 @@
         <div class="right-panel">
 
             <div class="search-bar-container">
-                <label for="searchQuery">I am looking for...</label>
-                <input type="text" id="searchQuery" name="searchQuery" placeholder="Product name">
-                <button id="search-button">Search</button>
+                <label for="searchQuery" th:text="#{searchPage.label.searchFor}">I am looking for...</label>
+                <input type="text" id="searchQuery" name="searchQuery"
+                       th:placeholder="#{searchPage.placeholder.search}"
+                       placeholder="Product name">
+
+                <button id="search-button" th:text="#{searchPage.button.search}">Search</button>
             </div>
 
             <div id="spinner" class="spinner" style="display: none;">
@@ -65,13 +78,20 @@
             </div>
 
             <div class="search-results">
-                <!-- Product results will be displayed here -->
+                <!-- Product results will be displayed here by JS -->
             </div>
 
             <div id="pagination"></div>
 
         </div>
     </div>
+
+    <script th:inline="javascript">
+            var msgErrorLoadingProducts = [[#{searchPage.errorLoadingProducts}]];
+            var msgPrev = [[#{searchPage.prev}]];
+            var msgNext = [[#{searchPage.next}]];
+    </script>
+
 </div>
 </body>
 </html>
