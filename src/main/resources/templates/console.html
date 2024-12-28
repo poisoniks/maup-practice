@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Admin Console</title>
+    <link rel="stylesheet" th:href="@{/css/console.css}">
+    <script th:src="@{/js/console.js}"></script>
+</head>
+<body>
+<div layout:fragment="content" class="admin-console-container">
+
+    <h1>Admin Console</h1>
+
+    <div class="console-block">
+        <h2>Health</h2>
+        <pre id="healthContent"></pre>
+    </div>
+
+    <div class="console-block">
+        <h2>Info</h2>
+        <pre id="infoContent"></pre>
+    </div>
+
+    <div class="console-block">
+        <h2>Flyway Migrations</h2>
+        <pre id="flywayContent"></pre>
+    </div>
+
+    <div class="console-block">
+        <h2>Application Ready Time</h2>
+        <pre id="readyTimeContent"></pre>
+    </div>
+
+    <div class="console-block">
+        <h2>JVM Memory Used</h2>
+        <pre id="jvmMemoryUsedContent"></pre>
+    </div>
+
+    <div class="console-block">
+        <h2>System CPU Usage</h2>
+        <pre id="cpuUsageContent"></pre>
+    </div>
+
+</div>
+</body>
+</html>

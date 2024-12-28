@@ -71,4 +71,9 @@ public class StaticPageController {
     public String backoffice() {
         return "backoffice";
     }
+
+    @GetMapping("/console")
+    public String console() {
+        return "console";
+    }
 }
