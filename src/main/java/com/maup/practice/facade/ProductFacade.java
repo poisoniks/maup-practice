@@ -23,4 +23,12 @@ public interface ProductFacade {
     List<SupplierDTO> findAllSuppliers();
 
     ProductDTO findProductById(Long id);
+
+    void createProduct(ProductDTO productDTO);
+
+    void updateProduct(ProductDTO productDTO);
+
+    void deleteProduct(Long id);
+
+    boolean isProductInUse(Long id);
 }

@@ -11,9 +11,7 @@ public interface ProductService {
     Page<ProductModel> findProductsByFilters(BigDecimal minPrice, BigDecimal maxPrice, List<Long> brandIds, List<Long> supplierIds,
                                              List<Long> categoryIds, String name, Pageable pageable);
 
-    ProductModel createProduct(ProductModel productModel);
-
-    ProductModel updateProduct(ProductModel productModel);
+    ProductModel saveProduct(ProductModel productModel);
 
     void deleteProduct(Long id);
 
@@ -22,4 +20,6 @@ public interface ProductService {
     ProductModel getProductById(Long id);
 
     ProductModel getProductByName(String name);
+
+    boolean isProductInUse(Long id);
 }

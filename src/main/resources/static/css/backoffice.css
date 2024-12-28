@@ -1,0 +1,102 @@
+.backoffice-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.backoffice-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #388E3C;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar label {
+    margin-right: 10px;
+}
+
+.search-bar input[type="text"] {
+    width: 200px;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.products-list {
+    margin-bottom: 20px;
+}
+
+.product-row {
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.product-row span {
+    font-size: 14px;
+    color: #555;
+}
+
+.edit-btn, .delete-btn {
+    margin-left: auto;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.product-form {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.product-form h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.product-form div {
+    margin-bottom: 10px;
+}
+
+.product-form label {
+    display: inline-block;
+    width: 120px;
+    color: #333;
+    font-weight: bold;
+}
+
+.product-form input[type="text"],
+.product-form input[type="number"],
+.product-form select,
+.product-form textarea {
+    width: 250px;
+    padding: 5px;
+    margin-left: 5px;
+}
+
+#cancelFormBtn {
+    margin-left: 10px;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}

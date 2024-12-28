@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SupplierService {
     List<SupplierModel> findAllSuppliers();
+    SupplierModel findSupplierById(Long id);
 }

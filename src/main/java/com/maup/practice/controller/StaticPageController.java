@@ -66,4 +66,9 @@ public class StaticPageController {
     public String orders() {
         return "orders";
     }
+
+    @GetMapping("/backoffice")
+    public String backoffice() {
+        return "backoffice";
+    }
 }

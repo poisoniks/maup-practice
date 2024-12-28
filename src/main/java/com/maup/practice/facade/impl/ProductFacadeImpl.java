@@ -81,4 +81,41 @@ public class ProductFacadeImpl implements ProductFacade {
     public ProductDTO findProductById(Long id) {
         return productModelConverter.convert(productService.getProductById(id));
     }
+
+    @Override
+    public void createProduct(ProductDTO productDTO) {
+        ProductModel productModel = new ProductModel();
+        updateProductModel(productModel, productDTO);
+        productService.saveProduct(productModel);
+    }
+
+    @Override
+    public void updateProduct(ProductDTO productDTO) {
+        ProductModel productModel = productService.getProductById(productDTO.getId());
+        if (productModel == null) {
+            throw new IllegalArgumentException("Product with id " + productDTO.getId() + " not found");
+        }
+        updateProductModel(productModel, productDTO);
+        productService.saveProduct(productModel);
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        productService.deleteProduct(id);
+    }
+
+    @Override
+    public boolean isProductInUse(Long id) {
+        return productService.isProductInUse(id);
+    }
+
+    private void updateProductModel(ProductModel productModel, ProductDTO productDTO) {
+        productModel.setName(productDTO.getName());
+        productModel.setPrice(BigDecimal.valueOf(productDTO.getPrice()));
+        productModel.setDescription(productDTO.getDescription());
+        productModel.setStockQuantity(productDTO.getStockQuantity());
+        productModel.setBrand(brandService.findBrandById(productDTO.getBrand().getId()));
+        productModel.setCategory(categoryService.findCategoryById(productDTO.getCategory().getId()));
+        productModel.setSupplier(supplierService.findSupplierById(productDTO.getSupplier().getId()));
+    }
 }
